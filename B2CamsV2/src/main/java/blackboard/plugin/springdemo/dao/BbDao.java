@@ -26,8 +26,13 @@ public interface BbDao {
 	 * @return
 	 */
 	public List<CourseMembership> getCourseMembers(Id courseId);
-
+	/**
+	 * get the User hjkj
+	 * @param id
+	 * @return
+	 */
 	public User getUserById(Id id);
+	
 
 	
 
