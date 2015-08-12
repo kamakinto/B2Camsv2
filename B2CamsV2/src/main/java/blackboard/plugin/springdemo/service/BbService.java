@@ -56,5 +56,14 @@ public class BbService {
 		return courseEnrollmentIds;
 }
 	
+public void generateDiffCourseEnrollments(HashMap<Course, ArrayList<User>> bbCourseEnrollments,
+		HashMap<Course, ArrayList<User>> camsCourseEnrollments){
+	
+}
+
+public void enrollUsersToCourses(HashMap<Course, ArrayList<User>> courseUserMap){
+	
+}
+	
 
 }
