@@ -12,6 +12,7 @@ import blackboard.data.course.CourseMembership;
 import blackboard.data.user.User;
 import blackboard.persist.Id;
 import blackboard.plugin.springdemo.dao.BbDao;
+import blackboard.plugin.springdemo.model.EnrUserToCourse;
 
 @Component
 public class BbService {
@@ -56,13 +57,16 @@ public class BbService {
 		return courseEnrollmentIds;
 }
 	
-public void generateDiffCourseEnrollments(HashMap<Course, ArrayList<User>> bbCourseEnrollments,
+public List<EnrUserToCourse> generateDiffCourseEnrollments(HashMap<Course, ArrayList<User>> bbCourseEnrollments,
 		HashMap<Course, ArrayList<User>> camsCourseEnrollments){
-	
+	return null;
 }
 
-public void enrollUsersToCourses(HashMap<Course, ArrayList<User>> courseUserMap){
-	
+
+public void enrollUsersToCourses(List<EnrUserToCourse> courseUserMap){
+	for (EnrUserToCourse record : courseUserMap){
+		bbDao.enrollUser(record.getUsername(), record.getRole(), record.getCourse());
+	}
 }
 	
 

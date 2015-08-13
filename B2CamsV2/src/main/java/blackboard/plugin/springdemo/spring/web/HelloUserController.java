@@ -29,7 +29,7 @@ public class HelloUserController
     ModelAndView mv = new ModelAndView( "hello" );
     
     // Objects can be added to the model for use in the JSP view
-    mv.addObject( "user", ( user != null ? user.getUserName() + "Or should I say" + user.getGivenName() : "guest" ) );
+    mv.addObject( "user", ( user != null ? user.getUserName() + "  Or should I say  " + user.getGivenName()+ "You, yes you!!": "guest" ) );
     
     return mv;
   }
