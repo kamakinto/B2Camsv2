@@ -34,7 +34,7 @@ public class BbDaoImpl implements BbDao{
 	private CourseMembershipDbLoader _membershipLoader;
 
 //@Autowired
-//private CourseMembershipDbPersister _membershipPersister;
+//private CourseMembershipDbPersister _courseMembershipPersister;
 
   @Autowired
   private UserDbLoader _userLoader;
@@ -88,9 +88,8 @@ public class BbDaoImpl implements BbDao{
 		newEnrollment.setUserId(_userLoader.loadByUserName(username).getId());
 		newEnrollment.setRole(CourseMembership.Role.STUDENT); //TODO:put conditional to cater for instructor
 		newEnrollment.setCourseId(_courseLoader.loadByCourseId(courseId).getId());
-	
-	//	_membershipPersister.persist(newEnrollment);
-		} catch (PersistenceException e) {
+		CourseMembershipDbPersister.Default.getInstance().persist(newEnrollment);
+		} catch (PersistenceException | ValidationException e) {
 			e.printStackTrace();
 		} 
 		
