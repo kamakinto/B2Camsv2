@@ -84,9 +84,13 @@ public class BbDaoImpl implements BbDao{
 	@Override
 	public void enrollUser(String username, String role, String courseId) {
 		try{
-		CourseMembership newEnrollment = new CourseMembership();
+			CourseMembership newEnrollment = new CourseMembership();
+			if(role.contains("INSTRUCTOR")){
+				newEnrollment.setRole(CourseMembership.Role.INSTRUCTOR);	
+			}else{
+				newEnrollment.setRole(CourseMembership.Role.STUDENT);
+			}
 		newEnrollment.setUserId(_userLoader.loadByUserName(username).getId());
-		newEnrollment.setRole(CourseMembership.Role.STUDENT); //TODO:put conditional to cater for instructor
 		newEnrollment.setCourseId(_courseLoader.loadByCourseId(courseId).getId());
 		CourseMembershipDbPersister.Default.getInstance().persist(newEnrollment);
 		} catch (PersistenceException | ValidationException e) {
