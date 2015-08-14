@@ -58,7 +58,11 @@ public class BbService {
 }
 	
 public List<EnrUserToCourse> generateDiffCourseEnrollments(HashMap<Course, ArrayList<User>> bbCourseEnrollments,
-		HashMap<Course, ArrayList<User>> camsCourseEnrollments){
+		HashMap<String, ArrayList<String>> camsCourseEnrollments){
+	
+	/**
+	 * TODO: populate the enrolled user list based on the users in the blackboard list and cams list
+	 */
 	return null;
 }
 
