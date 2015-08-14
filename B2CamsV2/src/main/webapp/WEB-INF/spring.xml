@@ -58,9 +58,9 @@
   <!-- DataSource for Remote database, TODO: set up for remote access. for testing it will be local --> 
   <bean id="CamsDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
   <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-  <property name="url" value="jdbc:mysql://www.db4free.net:3306/camsdb"/>
-  <property name="username" value="kamakinto"/>
-  <property name="password" value="password"/>
+  <property name="url" value="jdbc:mysql://www.db4free.net:3306/camstest"/>
+  <property name="username" value="erobinson"/>
+  <property name="password" value="hitokiru"/>
  </bean>
       
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">  
