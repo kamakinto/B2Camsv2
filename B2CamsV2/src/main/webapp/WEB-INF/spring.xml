@@ -55,14 +55,32 @@
   <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
   	 
   
-  <!-- DataSource for Remote database, TODO: set up for remote access. for testing it will be local --> 
+  <!-- DataSource for Remote databases --> 
   <bean id="CamsDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
   <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
   <property name="url" value="jdbc:mysql://www.db4free.net:3306/camstest"/>
   <property name="username" value="erobinson"/>
   <property name="password" value="hitokiru"/>
  </bean>
-      
+ 
+<!--<bean id="CamsDataSource" class="org.apache.commons.dbcp.BasicDataSource" 
+	destroy-method="close">
+  <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+  <property name="url" value="jdbc:sqlserver://192.xxx.x.xx:1433;databaseName=exampledb;selectMethod=cursor"/>
+  <property name="username" value="erobinson"/>
+  <property name="password" value="hitokiru"/>
+  <property name="initialSize" value="10"/>
+  <property name="maxActive" value="5"/>
+  <property name="maxWait" value="5000" />
+</bean>
+ 
+   <bean id="CamsDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+  <property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver"/>
+  <property name="url" value="jdbc:jtds:sqlserver://192.xxx.x.xx:1433/exampledb"/>
+  <property name="username" value="erobinson"/>
+  <property name="password" value="hitokiru"/>
+ </bean> -->
+ <!-- Entity Manager Factories -->     
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">  
   	<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />  
     <property name="persistenceUnitName" value="hibernatePersistenceUnit" />  
