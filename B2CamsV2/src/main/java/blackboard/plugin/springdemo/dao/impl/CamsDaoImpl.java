@@ -25,6 +25,8 @@ public class CamsDaoImpl implements CamsDao{
 		String qlString = "SELECT p FROM Foo p";
 		TypedQuery<Foo> query = entityManagerCams.createQuery(qlString, Foo.class);
 		return query.getResultList();
+		
+		
 	}
 	
 	public Map<String, Object> getConnectionInfo(){

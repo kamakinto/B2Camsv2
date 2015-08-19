@@ -9,7 +9,8 @@ version "1.0-SNAPSHOT"
 project.ext {
   learnVersion = "9.1.110082.0"
   springVersion = "3.1.1.RELEASE"
-  hibernateVersion = "4.1.10.Final"
+ //hibernateVersion = "4.1.10.Final"
+  hibernateVersion = "4.3.5.Final"
 }
 
 repositories {
@@ -50,6 +51,7 @@ dependencies {
 
   compile( "org.hibernate:hibernate-core:$ext.hibernateVersion" ) { transitive = true }
   compile "org.hibernate:hibernate-entitymanager:$ext.hibernateVersion"
+  compile "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final"
    compile "mysql:mysql-connector-java:5.1.9"
 
   runtime "org.javassist:javassist:3.17.1-GA",
