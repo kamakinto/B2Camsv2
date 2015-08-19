@@ -2,6 +2,12 @@ package blackboard.plugin.springdemo.model;
 
 public class EnrUserToCourse {
 	
+	public EnrUserToCourse(String username, String role, String course) {
+		super();
+		this.username = username;
+		this.role = role;
+		this.course = course;
+	}
 	private String username;
 	private String role;
 	private String course;

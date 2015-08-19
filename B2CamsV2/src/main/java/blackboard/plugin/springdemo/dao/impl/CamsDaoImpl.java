@@ -5,12 +5,14 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import blackboard.plugin.springdemo.dao.CamsDao;
+import blackboard.plugin.springdemo.model.EnrUserToCourse;
 import blackboard.plugin.springdemo.model.Foo;
 
 @Component
@@ -26,7 +28,14 @@ public class CamsDaoImpl implements CamsDao{
 		TypedQuery<Foo> query = entityManagerCams.createQuery(qlString, Foo.class);
 		return query.getResultList();
 		
-		
+}
+	
+	@SuppressWarnings("unchecked")
+	public List<EnrUserToCourse> getEnrUsersToCourses(){
+		String sqlString = "PLACE SELECT QUERY HERE"; //TODO: Add actual selection query
+		Query query = entityManagerCams.createNativeQuery(sqlString, "CourseEnrollmentMapping");
+		List<EnrUserToCourse> result = query.getResultList();
+		return result;
 	}
 	
 	public Map<String, Object> getConnectionInfo(){
