@@ -37,7 +37,7 @@ public class CamsController {
 	  public ModelAndView cams() throws Exception
 	  {
 		  //camsCourseEnrollments = getcamsCourseEnrollments(); TODO: GET CREDENTIALS TO ACCURATELY TEST CAMS PART
-		  HashMap<Course, ArrayList<User>> camsCourseEnrollments = null;
+		  HashMap<String, ArrayList<String>> camsCourseEnrollments = null;
 		  HashMap<Course, ArrayList<User>> bbCourseEnrollments = bbService.getBbCourseEnrollments();
 		  List<EnrUserToCourse> diffCourseEnrollments = bbService.generateDiffCourseEnrollments(bbCourseEnrollments,camsCourseEnrollments);
 		  bbService.enrollUsersToCourses(diffCourseEnrollments);

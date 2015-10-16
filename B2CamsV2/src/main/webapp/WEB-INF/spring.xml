@@ -59,8 +59,8 @@
   <bean id="CamsDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
   <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
   <property name="url" value="jdbc:mysql://www.db4free.net:3306/camstest"/>
-  <property name="username" value="erobinson"/>
-  <property name="password" value="hitokiru"/>
+  <property name="username" value="root"/>
+  <property name="password" value="password"/>
  </bean>
  
 <!--<bean id="CamsDataSource" class="org.apache.commons.dbcp.BasicDataSource" 
