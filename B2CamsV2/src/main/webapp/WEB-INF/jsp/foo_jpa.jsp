@@ -11,10 +11,13 @@
 	<br/><input type="submit"/>
 </form> -->
 
+XML-RPC Web Service Test: <br/>
+${helloWS}
+<br/>
 
 
-Foo's:<br/>
- <c:forEach items="${fooList}" var="element">
+Courses records:<br/>
+ <c:forEach items="${camsList}" var="element">
     <c:out value="${element.name}"/> => <c:out value="${element.value}"/><br/>
 </c:forEach>
 </body>

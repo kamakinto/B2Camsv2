@@ -14,8 +14,19 @@ import javax.persistence.ColumnResult;
 classes = {
 		@ConstructorResult(targetClass = EnrUserToCourse.class,
 			columns = {
-			@ColumnResult(name="username"), 
-			@ColumnResult(name="role")}//TODO: add actual object fields
+			@ColumnResult(name="studentName"), 
+			@ColumnResult(name="studentID"),
+			@ColumnResult(name="department"),
+			@ColumnResult(name="course"),
+			@ColumnResult(name="section"),
+			@ColumnResult(name="courseName"),
+			@ColumnResult(name="instructor"),
+			@ColumnResult(name="termCalendarID"),
+			@ColumnResult(name="facultyID"),
+			@ColumnResult(name="grouping"),
+			@ColumnResult(name="courseURL"),
+			@ColumnResult(name="courseType"),
+			@ColumnResult(name="courseDescription")}
 		)}
 )
 

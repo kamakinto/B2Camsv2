@@ -66,9 +66,9 @@
 <!--<bean id="CamsDataSource" class="org.apache.commons.dbcp.BasicDataSource" 
 	destroy-method="close">
   <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-  <property name="url" value="jdbc:sqlserver://192.xxx.x.xx:1433;databaseName=exampledb;selectMethod=cursor"/>
-  <property name="username" value="erobinson"/>
-  <property name="password" value="hitokiru"/>
+  <property name="url" value="jdbc:sqlserver://192.xxx.x.xx;instanceName=db-erp;databaseName=CAMS_Enterprise_Test;selectMethod=cursor"/>
+  <property name="username" value="arc"/>
+  <property name="password" value="Integr43!"/>
   <property name="initialSize" value="10"/>
   <property name="maxActive" value="5"/>
   <property name="maxWait" value="5000" />

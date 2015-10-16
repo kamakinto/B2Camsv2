@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import blackboard.data.ValidationException;
 import blackboard.data.course.Course;
 import blackboard.data.course.CourseMembership;
+import blackboard.data.course.CourseMembership.Role;
 import blackboard.data.user.User;
 import blackboard.persist.Id;
 import blackboard.persist.KeyNotFoundException;
@@ -23,6 +24,7 @@ import blackboard.persist.course.CourseDbLoader;
 import blackboard.persist.course.CourseMembershipDbLoader;
 import blackboard.persist.course.CourseMembershipDbPersister;
 import blackboard.persist.user.UserDbLoader;
+import blackboard.persist.user.UserDbPersister;
 import blackboard.plugin.springdemo.dao.BbDao;
 import blackboard.plugin.springdemo.dao.CamsDao;
 import blackboard.plugin.springdemo.model.Foo;
@@ -98,6 +100,35 @@ public class BbDaoImpl implements BbDao{
 		} 
 		
 	}
+	
+	public void createUser(String username, Role role, String firstName, String lastName){
+		User user = new User();
+		user.setUserName(username);
+		user.setPassword("");
+		//TODO: Finish completing the user properties for persistence
+		try {
+			UserDbPersister userPersister = UserDbPersister.Default.getInstance();
+			
+			userPersister.persist(null);
+		} catch (PersistenceException | ValidationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public User LoadByUsername(String username){
+		User user = new User();
+	try {
+		 user =  _userLoader.loadByUserName(username);
+	} catch (PersistenceException e) {
+		e.printStackTrace();
+	}
+		return user;
+		
+	}
+	
+
 	
 
 }

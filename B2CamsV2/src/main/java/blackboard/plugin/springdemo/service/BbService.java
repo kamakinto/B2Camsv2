@@ -33,6 +33,10 @@ public class BbService {
 		return bbDao.getUserById(id);
 	}
 	
+	public void enrollUser(String username, String role, String courseId){
+		bbDao.enrollUser(username, role, courseId);
+	}
+	
 	public HashMap<Course, ArrayList<User>> getBbCourseEnrollments(){
 		HashMap<Course, ArrayList<User>> courseEnrollmentMap = new HashMap<Course, ArrayList<User>>();
 		List<Course> courses = getAllBbCourses();
@@ -65,7 +69,10 @@ public List<EnrUserToCourse> generateDiffCourseEnrollments(HashMap<Course, Array
 
 public void enrollUsersToCourses(List<EnrUserToCourse> courseUserMap){
 	for (EnrUserToCourse record : courseUserMap){
-		bbDao.enrollUser(record.getUsername(), record.getRole(), record.getCourse());
+//		if (bbDao.LoadByUsername(record.getUsername()) == null){
+//		//TODO: If user doesnt exist in the system, create the user	
+//		}
+		//bbDao.enrollUser(record.getUsername(), record.getRole(), record.getCourse());
 	}
 }
 	

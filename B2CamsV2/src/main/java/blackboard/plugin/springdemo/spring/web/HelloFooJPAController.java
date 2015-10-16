@@ -1,14 +1,20 @@
 package blackboard.plugin.springdemo.spring.web;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.List;
+import java.util.Vector;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
+import org.apache.xmlrpc.XmlRpcException;
+import org.apache.xmlrpc.client.XmlRpcClient;
+import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,9 +36,46 @@ public class HelloFooJPAController
   @RequestMapping( "/fooJPAController" )
   public ModelAndView helloFoo() throws Exception
   {
+	  
+		String result= "Robbie";
+		String client_username = "blackboard_ws_client";
+		String client_password = "bl@ckboardws123";
+		String server_url = "https://www-dev.aup.edu/xmlrpc.php";
+		try{
+			XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+			config.setServerURL(new URL(server_url)); //update with Drupal WS URL
+			//config.setServerURL(new URL("http://www.advogato.org/XMLRPC")); //update with Drupal WS URL
+			XmlRpcClient server = new XmlRpcClient();
+			server.setConfig(config);
+			Vector params = new Vector();
+			params.add(client_username);
+			params.add(client_password);
+			//String sentence = "Testing to see if the client webservice works in capitalizing the string";
+			//params.add(sentence);
+			//result = (String) server.execute("test.capitalize", params);
+			result = (String) server.execute("blackboard_ws.getEnrollments", params);
+			
+			
+		}catch (XmlRpcException exception){
+			System.err.println("javaClient: " + exception);
+			exception.printStackTrace();
+		} catch (MalformedURLException e){
+			e.printStackTrace();
+			result = "javaClient: You put in an incorrect URL for XML-RPC server format:" + e;
+		}catch (Exception e){
+			e.printStackTrace();
+		};
+		
+		
 	  ModelAndView mv = new ModelAndView("foo_jpa");
-
-	  mv.addObject("fooList", camsService.getFoos());
+	  
+	  //result = camsService.getWSHelloWorld();
+//	  if(result == null){
+//		  result = "Did Not Reach Web Service.";
+//	  }
+	  mv.addObject("helloWS", result);
+	 // mv.addObject("camsList", camsService.getCourseEnrollmentAndUsers());
+	 // mv.addObject("fooList", camsService.getFoos());
 	  return mv;
   }
   
