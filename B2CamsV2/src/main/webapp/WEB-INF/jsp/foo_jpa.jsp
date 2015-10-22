@@ -12,7 +12,12 @@
 </form> -->
 
 XML-RPC Web Service Test: <br/>
-${helloWS}
+
+
+
+<c:forEach items="${helloWS}" var="elem">
+    <c:out value="${elem.courseName}"/> <br/>
+</c:forEach>
 <br/>
 
 
