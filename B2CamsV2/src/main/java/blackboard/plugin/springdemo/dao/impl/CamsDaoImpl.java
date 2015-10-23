@@ -68,9 +68,9 @@ public List<EnrUserToCourse> decodeEnrollmentList(Object element){
 	
 		String result= null;
 		List<CamsCourse> courses = new CopyOnWriteArrayList<CamsCourse>();
-		String client_username = "";
-		String client_password = "";
-		 String server_url = "";
+		String client_username = "blackboard_ws_client";
+		String client_password = "bl@ckboardws123";
+		 String server_url = "https://www-dev.aup.edu/xmlrpc.php";
 		 
 		 
 		try{
