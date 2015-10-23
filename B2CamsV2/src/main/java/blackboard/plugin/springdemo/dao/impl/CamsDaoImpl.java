@@ -33,7 +33,7 @@ import com.google.gson.reflect.TypeToken;
 @Component
 public class CamsDaoImpl implements CamsDao{
 	
-	private final static String server_url = "https://www-dev.aup.edu/xmlrpc.php";
+	private final static String server_url = "";
 	private final static String test_server_url = "http://www.advogato.org/XMLRPC";
 	/**
      * Name of remote functions used by this example
