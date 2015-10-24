@@ -27,6 +27,7 @@ import blackboard.persist.user.UserDbLoader;
 import blackboard.persist.user.UserDbPersister;
 import blackboard.plugin.springdemo.dao.BbDao;
 import blackboard.plugin.springdemo.dao.CamsDao;
+import blackboard.plugin.springdemo.model.CamsCourse;
 import blackboard.plugin.springdemo.model.Foo;
 
 @Component
@@ -43,6 +44,9 @@ public class BbDaoImpl implements BbDao{
   
   @Autowired
   private CourseDbLoader _courseLoader;
+  
+  @Autowired 
+  private CamsDao camsDao;
 
 	@Override
 	public List<Foo> getFoos() {
@@ -128,6 +132,15 @@ public class BbDaoImpl implements BbDao{
 		
 	}
 	
+	public void syncCamsWithBB(){
+		//get cams courses
+		//get bb courses
+		//loop through the blackboard courses to find a matching camsCourse
+		//once a course is found, check the users and compare them 
+	List<CamsCourse> camsCourses = camsDao.getEnrUserToCoursesWS();
+		
+		
+	}
 
 	
 
