@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import blackboard.data.course.Course;
 import blackboard.data.user.User;
+import blackboard.plugin.springdemo.model.CamsCourse;
 import blackboard.plugin.springdemo.model.EnrUserToCourse;
 import blackboard.plugin.springdemo.model.Foo;
 import blackboard.plugin.springdemo.service.BbService;
@@ -37,7 +38,7 @@ public class CamsController {
 	  public ModelAndView cams() throws Exception
 	  {
 		  //camsCourseEnrollments = getcamsCourseEnrollments(); TODO: GET CREDENTIALS TO ACCURATELY TEST CAMS PART
-		  HashMap<String, ArrayList<String>> camsCourseEnrollments = null;
+		  List<CamsCourse> camsCourseEnrollments = camsService.getEnrUserToCourses();
 		  HashMap<Course, ArrayList<User>> bbCourseEnrollments = bbService.getBbCourseEnrollments();
 		  List<EnrUserToCourse> diffCourseEnrollments = bbService.generateDiffCourseEnrollments(bbCourseEnrollments,camsCourseEnrollments);
 		  bbService.enrollUsersToCourses(diffCourseEnrollments);

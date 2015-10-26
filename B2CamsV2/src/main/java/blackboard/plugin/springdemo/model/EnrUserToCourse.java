@@ -35,6 +35,9 @@ public class EnrUserToCourse {
 		this.courseType = courseType;
 		this.courseDescription = courseDescription;
 	}
+	public EnrUserToCourse() {
+		// TODO Auto-generated constructor stub
+	}
 	public String getStudentName() {
 		return studentName;
 	}

@@ -3,6 +3,7 @@ package blackboard.plugin.springdemo.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,9 @@ import blackboard.data.course.CourseMembership;
 import blackboard.data.user.User;
 import blackboard.persist.Id;
 import blackboard.plugin.springdemo.dao.BbDao;
+import blackboard.plugin.springdemo.model.CamsStudent;
 import blackboard.plugin.springdemo.model.EnrUserToCourse;
+import blackboard.plugin.springdemo.model.CamsCourse;
 
 @Component
 public class BbService {
@@ -62,12 +65,48 @@ public class BbService {
 }
 	
 public List<EnrUserToCourse> generateDiffCourseEnrollments(HashMap<Course, ArrayList<User>> bbCourseEnrollments,
-		HashMap<String, ArrayList<String>> camsCourseEnrollments){
+		List<CamsCourse> camsCourseEnrollments){
+	List<EnrUserToCourse> syncList = new ArrayList<EnrUserToCourse>();
 	
 	/**
-	 * TODO: populate the enrolled user list based on the users in the blackboard list and cams list
+	 * 1. Iterate through the bb courses
+	 * 2. find the corresponding course in cams
+	 * 3. get the list of users in cams that are NOT in blackboard for the course. (go through cams list and
+	 * if the user does not show up the blackboard list, add that username and info to the diff list. if user is in both, do nothing
+	 * we only want a list of users that are in cams, but not in bb. with that list. we have the updated "added" users. 
 	 */
-	return null;
+	
+	//1 - loops through each entry in BB entries. 
+	for(Map.Entry<Course, ArrayList<User>> entry: bbCourseEnrollments.entrySet()){
+		
+		for(CamsCourse camsCourse : camsCourseEnrollments){
+			
+			if(entry.getKey().getCourseId().contentEquals(camsCourse.getCourseNum())
+					&& (entry.getKey().getCourseId().startsWith(camsCourse.getDepartment())
+							|| entry.getKey().getCourseId().startsWith(camsCourse.getCrossListedID()))){
+				//if we find a match, iterate over camsCourse's students. if you dont find the student id in 
+				//the 'entry's array list of users, then add it to the diff list we are building. 
+				for(Map.Entry<String, CamsStudent> camsStudent: camsCourse.getCourseEnrollment().entrySet()){
+					//iterate every student, if that student doesnt exist in the blackboard course list. add to master 
+					//list to return. 
+						for(User bbUser: entry.getValue()){
+							if(!bbUser.getUserName().contains(camsStudent.getKey())){
+								EnrUserToCourse userToAdd = new EnrUserToCourse();
+								//populate user data with info for blackboard
+								
+								
+								//add the cams user to the master list of students to enroll
+								syncList.add(userToAdd);
+							}
+						}
+				}
+				
+			}
+		}
+		
+		
+	}
+	return syncList;
 }
 
 
