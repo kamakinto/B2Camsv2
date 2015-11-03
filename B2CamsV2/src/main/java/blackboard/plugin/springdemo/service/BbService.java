@@ -81,11 +81,10 @@ public List<EnrUserToCourse> generateDiffCourseEnrollments(HashMap<Course, Array
 		
 		for(CamsCourse camsCourse : camsCourseEnrollments){
 			
-			if(entry.getKey().getCourseId().contentEquals(camsCourse.getCourseNum())
-					&& (entry.getKey().getCourseId().startsWith(camsCourse.getDepartment())
-							|| entry.getKey().getCourseId().startsWith(camsCourse.getCrossListedID()))){
-				//if we find a match, iterate over camsCourse's students. if you dont find the student id in 
-				//the 'entry's array list of users, then add it to the diff list we are building. 
+			if(entry.getKey().getCourseId().contains(camsCourse.getCourseNum()) //if courses match
+			&& (entry.getKey().getCourseId().startsWith(camsCourse.getDepartment())
+			|| entry.getKey().getCourseId().startsWith(camsCourse.getCrossListedID()))){
+	 
 				for(Map.Entry<String, CamsStudent> camsStudent: camsCourse.getCourseEnrollment().entrySet()){
 					//iterate every student, if that student doesnt exist in the blackboard course list. add to master 
 					//list to return. 
@@ -93,7 +92,20 @@ public List<EnrUserToCourse> generateDiffCourseEnrollments(HashMap<Course, Array
 							if(!bbUser.getUserName().contains(camsStudent.getKey())){
 								EnrUserToCourse userToAdd = new EnrUserToCourse();
 								//populate user data with info for blackboard
-								
+								userToAdd.setCourseName(camsCourse.getCourseName());
+								userToAdd.setCourse(camsCourse.getCourseNum());
+								userToAdd.setCourseDescription(camsCourse.getCourseDescription());
+								userToAdd.setCourse(camsCourse.getCourseName());
+								userToAdd.setCourseType(camsCourse.getCourseType());
+								userToAdd.setCourseURL(camsCourse.getCourseURL());
+								userToAdd.setDepartment(camsCourse.getDepartment());
+								userToAdd.setFacultyID(camsCourse.getFacultyID());
+								userToAdd.setGrouping(camsCourse.getGrouping());
+								userToAdd.setInstructor(camsCourse.getInstructor());
+								userToAdd.setSection(camsCourse.getSection());
+								userToAdd.setStudentID(camsStudent.getValue().getStudentId());
+								userToAdd.setStudentName(camsStudent.getValue().getStudentName());
+								userToAdd.setTermCalendarID(camsCourse.getTermCalendarID());
 								
 								//add the cams user to the master list of students to enroll
 								syncList.add(userToAdd);

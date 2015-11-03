@@ -17,6 +17,10 @@ XML-RPC Web Service Test: <br/>
 
 <c:forEach items="${helloWS}" var="elem">
     <c:out value="${elem.courseName}"/> <br/>
+    Students: 
+    <c:forEach items="${elem.courseEnrollment}" var="item" varStatus= "loop">
+    	${item.key} ${!loop.last ? ',' : ''}
+    </c:forEach><br/>
 </c:forEach>
 <br/>
 

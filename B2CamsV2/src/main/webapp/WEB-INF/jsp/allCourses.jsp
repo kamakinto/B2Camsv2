@@ -22,7 +22,12 @@
 			${user} <br /> ${!loop.last ? '' : '' }
 		</c:forEach> <br>
 	</c:forEach>
-		
+	
+	<h1> List of courses and users that are in Cams, but NOT in Blackboard</h1>
+		<c:forEach items="${courseUsersToEnroll}" var="courseUsersToEnroll"> 
+			Course: <c:out value= "${courseUsersToEnroll.courseName}" /><br />
+			Student Name: <c:out value= "${courseUsersToEnroll.studentName}" /><br />
+		</c:forEach>
 </pre>
 </body>
 </html>

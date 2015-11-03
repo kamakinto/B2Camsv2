@@ -19,7 +19,10 @@ import blackboard.persist.course.CourseDbLoader;
 import blackboard.persist.course.CourseMembershipDbLoader;
 import blackboard.persist.user.UserDbLoader;
 import blackboard.platform.spring.web.annotations.IdParam;
+import blackboard.plugin.springdemo.model.CamsCourse;
+import blackboard.plugin.springdemo.model.EnrUserToCourse;
 import blackboard.plugin.springdemo.service.BbService;
+import blackboard.plugin.springdemo.service.CamsService;
 
 
 @Controller
@@ -38,18 +41,25 @@ public class HelloCourseController
   @Autowired 
   private BbService bbService;
   
+  @Autowired
+  private CamsService camsService;
+  
   @RequestMapping("/allCourses")
   public ModelAndView listAllCourseUsers()
 		  throws KeyNotFoundException, PersistenceException{
 	  ModelAndView mv = new ModelAndView("allCourses");
 	  HashMap<Course, ArrayList<User>> courseEnrollmentMap = new HashMap<Course, ArrayList<User>>();
 	  HashMap<String, ArrayList<String>> courseEnrollmentMapIds = new HashMap<String, ArrayList<String>>();
+	  List<CamsCourse> usersToEnroll = camsService.getEnrUserToCourses();
 
 	  courseEnrollmentMap = bbService.getBbCourseEnrollments();
 	  courseEnrollmentMapIds = bbService.getCourseEnrollmentIDs(courseEnrollmentMap);
+	  List<EnrUserToCourse> bbUsersToEnroll = bbService.generateDiffCourseEnrollments(courseEnrollmentMap, usersToEnroll);
+	  
 	  
 	  mv.addObject("courseEnrollmentMap", courseEnrollmentMapIds);
 	  mv.addObject("courses", bbService.getAllBbCourses());
+	  mv.addObject("courseUsersToEnroll", bbUsersToEnroll);
 	return mv;
   }
 
