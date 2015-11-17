@@ -8,8 +8,14 @@
 <form action="fooController">
 	<br/>Name: <input type="text" name="n" value=""/>
 	<br/>Value: <input type="text" name="v" value=""/>
+	<br/>username: <input type="text" name="username" value=""/>
+	<br/>firstname : <input type="text" name="firstName" value=""/>
+	<br/>lastname : <input type="text" name="lastName" value=""/>
 	<br/><input type="submit"/>
 </form>
+
+
+
 
 Foo's:<br/>
 <c:forEach items="${fooList}" var="element">

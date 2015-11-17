@@ -105,15 +105,23 @@ public class BbDaoImpl implements BbDao{
 		
 	}
 	
-	public void createUser(String username, Role role, String firstName, String lastName){
+	@Override
+	public void createUser(String username, String role, String firstName, String lastName){
+		String emailAddress = username + "@aup.edu";
+		
 		User user = new User();
 		user.setUserName(username);
 		user.setPassword("");
+		user.setEmailAddress(emailAddress);
+		user.setFamilyName(firstName);
+		user.setGivenName(lastName);
+		
 		//TODO: Finish completing the user properties for persistence
 		try {
 			UserDbPersister userPersister = UserDbPersister.Default.getInstance();
 			
-			userPersister.persist(null);
+			userPersister.persist(user);
+			
 		} catch (PersistenceException | ValidationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

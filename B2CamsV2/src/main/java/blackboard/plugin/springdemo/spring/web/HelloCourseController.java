@@ -55,7 +55,7 @@ public class HelloCourseController
 	  courseEnrollmentMap = bbService.getBbCourseEnrollments();
 	  courseEnrollmentMapIds = bbService.getCourseEnrollmentIDs(courseEnrollmentMap);
 	  List<EnrUserToCourse> bbUsersToEnroll = bbService.generateDiffCourseEnrollments(courseEnrollmentMap, usersToEnroll);
-	  
+	  bbService.enrollUsersToCourses(bbUsersToEnroll);
 	  
 	  mv.addObject("courseEnrollmentMap", courseEnrollmentMapIds);
 	  mv.addObject("courses", bbService.getAllBbCourses());

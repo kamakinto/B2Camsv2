@@ -5,6 +5,7 @@ import java.util.Map;
 
 import blackboard.data.course.Course;
 import blackboard.data.course.CourseMembership;
+import blackboard.data.course.CourseMembership.Role;
 import blackboard.data.user.User;
 import blackboard.persist.Id;
 import blackboard.persist.KeyNotFoundException;
@@ -35,6 +36,7 @@ public interface BbDao {
 	
 	public void enrollUser(String username, String role, String courseId);
 	public User LoadByUsername(String username);
+	public void createUser(String username, String role, String firstName, String lastName);
 	
 
 	

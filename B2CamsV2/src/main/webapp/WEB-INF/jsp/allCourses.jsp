@@ -26,7 +26,18 @@
 	<h1> List of courses and users that are in Cams, but NOT in Blackboard</h1>
 		<c:forEach items="${courseUsersToEnroll}" var="courseUsersToEnroll"> 
 			Course: <c:out value= "${courseUsersToEnroll.courseName}" /><br />
+			Student username: <c:out value= "${courseUsersToEnroll.studentID}" /><br />
 			Student Name: <c:out value= "${courseUsersToEnroll.studentName}" /><br />
+			Course Name: <c:out value= "${courseUsersToEnroll.course}" /><br />
+			Instructor Name: <c:out value= "${courseUsersToEnroll.instructor}" /><br />
+			faculty ID Name: <c:out value= "${courseUsersToEnroll.facultyID}" /><br />
+			Section Name: <c:out value= "${courseUsersToEnroll.section}" /><br />
+			Department Name: <c:out value= "${courseUsersToEnroll.department}" /><br />
+			term calendar id Name: <c:out value= "${courseUsersToEnroll.termCalendarID}" /><br />
+			Grouping Name: <c:out value= "${courseUsersToEnroll.grouping}" /><br />
+			Course URL Name: <c:out value= "${courseUsersToEnroll.courseURL}" /><br />
+			Course Type Name: <c:out value= "${courseUsersToEnroll.department}" /><br />
+			-------------------------------------------------------------------------------------------
 		</c:forEach>
 </pre>
 </body>
