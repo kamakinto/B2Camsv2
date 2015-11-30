@@ -188,9 +188,20 @@ public List<EnrUserToCourse> decodeEnrollmentList(Object element){
 		newCourse.setFacultyID(sr.getFacultyID());
 		newCourse.setGrouping(sr.getGrouping());
 		newCourse.setInstructor(sr.getInstructor());
-		newCourse.setSection(sr.getSection());
 		newCourse.setTermCalendarID(sr.getTermCalendarID());
-		newCourse.setCrossListedID(sr.getCrossListedID());
+		
+		//Important edge cases that shouldnt be null
+		if(sr.getSection().equals(null)|| sr.getSection().isEmpty()){
+			newCourse.setSection("No Section Available");
+		}else{
+			newCourse.setSection(sr.getSection());
+		}
+		
+		if(sr.getCrossListedID().equals(null ) || sr.getCrossListedID().isEmpty()){
+			newCourse.setCrossListedID("No Cross Listed ID Available");
+		}else{
+			newCourse.setCrossListedID(sr.getCrossListedID());
+		}
 		
 		//then create a new student object with sr data
 		CamsStudent newStudent = new CamsStudent();

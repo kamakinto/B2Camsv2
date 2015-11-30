@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import blackboard.data.course.Course;
 import blackboard.data.user.User;
 import blackboard.plugin.springdemo.model.CamsCourse;
+import blackboard.plugin.springdemo.model.EnrUserToCourse;
 import blackboard.plugin.springdemo.service.BbService;
 import blackboard.plugin.springdemo.service.CamsService;
 
@@ -36,12 +37,13 @@ public class HelloFooJPAController
 	courseEnrollmentMap = bbService.getBbCourseEnrollments(); // Blackboard Course Enrollment Map
 	courseEnrollmentMapIds = bbService.getCourseEnrollmentIDs(courseEnrollmentMap);
 	
-	List<CamsCourse >result = camsService.getEnrUserToCourses(); //Cams Course Enrollment Map
-		
+	List<CamsCourse> result = camsService.getEnrUserToCourses(); //Cams Course Enrollment Map
+	List<EnrUserToCourse> syncList = bbService.generateDiffCourseEnrollments(courseEnrollmentMap, result);
 	  ModelAndView mv = new ModelAndView("foo_jpa");
 	  
 	  mv.addObject("helloWS", result);
 	  mv.addObject("bbCourseEnrollmentMap", courseEnrollmentMapIds);
+	  mv.addObject("syncList", syncList);
 	
 	
 	  

@@ -89,15 +89,17 @@ public List<EnrUserToCourse> generateDiffCourseEnrollments(HashMap<Course, Array
 		
 		for(CamsCourse camsCourse : camsCourseEnrollments){
 			
-			if(entry.getKey().getCourseId().toUpperCase().contains(camsCourse.getCourseNum().toUpperCase()) //if courses match
-			&& (entry.getKey().getCourseId().toUpperCase().startsWith(camsCourse.getDepartment().toUpperCase())
+			if(entry.getKey().getCourseId().toUpperCase().contains(camsCourse.getCourseNum().toUpperCase())//if courses match
+			&& sectionMatch(entry, camsCourse)
+			&& (entry.getKey().getCourseId().toUpperCase().startsWith(camsCourse.getDepartment().toUpperCase())//TODO: add portion to match the Cams course section with the BB Course ID 
 			|| entry.getKey().getCourseId().toUpperCase().startsWith(camsCourse.getCrossListedID().toUpperCase()))){
-	 
+				//check for a filled in section for the CamsCourse
+				//if the ca
 				for(Map.Entry<String, CamsStudent> camsStudent: camsCourse.getCourseEnrollment().entrySet()){
 					//pick a cams student, then iterate over every student in bb, if that student doesnt exist in the blackboard 
 					//course list. add to master 
 					//list to return. 
-						for(User bbUser: entry.getValue()){
+						for(User bbUser: entry.getValue()){//TODO: FIX TO CHECK FOR USER EXISTANCE IN BB COURSE
 							if(!bbUser.getUserName().toUpperCase().contains(camsStudent.getKey().toUpperCase())){
 								EnrUserToCourse userToAdd = new EnrUserToCourse();
 								//populate user data with info for blackboard
@@ -166,6 +168,23 @@ public Boolean existsInMasterList(EnrUserToCourse userToEnroll,List<EnrUserToCou
 		}
 	}
 	return false;
+}
+
+public Boolean sectionMatch(Map.Entry<Course, ArrayList<User>> entry,CamsCourse camsCourse ){
+	String bbCourseId = entry.getKey().getCourseId();
+	String camsCourseNum = camsCourse.getCourseNum();
+	int camsCourseNumLength = camsCourse.getCourseNum().length();
+	
+	
+	//Return true : if Cams has no section and Blackboard has no section. cams has a section, and blackboard has a section
+	if(camsCourse.getSection().length() > 2 
+			&& bbCourseId.substring(bbCourseId.lastIndexOf(camsCourseNum + camsCourseNumLength)).startsWith(camsCourse.getSection()))
+		 {
+		
+	}
+	//return false : if Cams has no section, but blackboard has a section. Cams has a section, but Blackboard doesnt have a section
+	
+	return null;
 }
 
 }

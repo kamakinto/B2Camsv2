@@ -16,7 +16,11 @@ XML-RPC Web Service Test: <br/>
 
 List of Courses and Students in CAMS: 
 <c:forEach items="${helloWS}" var="elem">
-    <c:out value="${elem.courseName}"/> <br/>
+   Course Name: <c:out value="${elem.courseName}"/> <br/>
+   Course Number:  <c:out value="${elem.courseNum}"/> <br/>
+   Course Section:  <c:out value="${elem.section}"/> <br/>
+   Course Department: <c:out value="${elem.department}"/> <br/>
+   Course CrossListed ID:  <c:out value="${elem.crossListedID}"/> <br/>
     Students: 
     <c:forEach items="${elem.courseEnrollment}" var="item" varStatus= "loop">
     	${item.key} , ${item.value.studentName} ${!loop.last ? ',' : ''}
@@ -37,15 +41,23 @@ List of All Courses and Students in Blackboard:
 
 
 List of Students in Cams that are not in blackboard: 
+<c:forEach items="${syncList}" var="courseUsersToEnroll"> 
+			Course: <c:out value= "${courseUsersToEnroll.courseName}" /><br />
+			Student username: <c:out value= "${courseUsersToEnroll.studentID}" /><br />
+			Student Name: <c:out value= "${courseUsersToEnroll.studentName}" /><br />
+			Course Name: <c:out value= "${courseUsersToEnroll.course}" /><br />
+			Instructor Name: <c:out value= "${courseUsersToEnroll.instructor}" /><br />
+			faculty ID Name: <c:out value= "${courseUsersToEnroll.facultyID}" /><br />
+			Section Name: <c:out value= "${courseUsersToEnroll.section}" /><br />
+			Department Name: <c:out value= "${courseUsersToEnroll.department}" /><br />
+			term calendar id Name: <c:out value= "${courseUsersToEnroll.termCalendarID}" /><br />
+			Grouping Name: <c:out value= "${courseUsersToEnroll.grouping}" /><br />
+			Course URL Name: <c:out value= "${courseUsersToEnroll.courseURL}" /><br />
+			Course Type Name: <c:out value= "${courseUsersToEnroll.department}" /><br />
+			-------------------------------------------------------------------------------------------
+		</c:forEach>
 
 
-
-Courses records:<br/>
- <c:forEach items="${camsList}" var="element">
-    <c:out value="${element.name}"/> => <c:out value="${element.value}"/><br/>
-</c:forEach>
-
-List to use to create batch user upload: <br/>
 
 </body>
 </html>
