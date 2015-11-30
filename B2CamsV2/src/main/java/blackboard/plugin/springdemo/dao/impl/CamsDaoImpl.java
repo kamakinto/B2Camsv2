@@ -101,11 +101,12 @@ public List<EnrUserToCourse> decodeEnrollmentList(Object element){
 							newStudent.setStudentId(sr.getStudentID());
 							newStudent.setStudentName(sr.getStudentName());
 							for(int i = 0; i < courses.size();i++){
-								if(camsC.getCourseName().contentEquals(courses.get(i).getCourseName())
-									&& camsC.getCourseNum().contentEquals(courses.get(i).getCourseNum())
-									&& camsC.getSection().contentEquals(courses.get(i).getSection())
-									&& camsC.getDepartment().contentEquals(courses.get(i).getDepartment())
-									&& camsC.getInstructor().contentEquals(courses.get(i).getInstructor())){
+								if(camsC.getCourseName().toUpperCase().contentEquals(courses.get(i).getCourseName().toUpperCase())
+									&& camsC.getCourseNum().toUpperCase().contentEquals(courses.get(i).getCourseNum().toUpperCase())
+									&& camsC.getSection().toUpperCase().contentEquals(courses.get(i).getSection().toUpperCase())
+									&& camsC.getDepartment().toUpperCase().contentEquals(courses.get(i).getDepartment().toUpperCase())
+									&& camsC.getInstructor().toUpperCase().contentEquals(courses.get(i).getInstructor().toUpperCase())){
+									
 									courses.get(i).getCourseEnrollment().put(newStudent.getStudentId(), newStudent);
 								}
 							}
@@ -142,11 +143,11 @@ public List<EnrUserToCourse> decodeEnrollmentList(Object element){
 	
 	public static CamsCourse findExistingCourse(CamsStudentRecord studentRecord, List<CamsCourse> courses){
 		for(CamsCourse course : courses){
-			if(studentRecord.getCourseName().contentEquals(course.getCourseName())
-					&& studentRecord.getDepartment().contentEquals(course.getDepartment())
-					&& studentRecord.getCourse().contentEquals(course.getCourseNum())
-					&& studentRecord.getSection().contentEquals(course.getSection())
-					&& studentRecord.getInstructor().contentEquals(course.getInstructor())){
+			if(studentRecord.getCourseName().toUpperCase().contentEquals(course.getCourseName().toUpperCase())
+					&& studentRecord.getDepartment().toUpperCase().contentEquals(course.getDepartment().toUpperCase())
+					&& studentRecord.getCourse().toUpperCase().contentEquals(course.getCourseNum().toUpperCase())
+					&& studentRecord.getSection().toUpperCase().contentEquals(course.getSection().toUpperCase())
+					&& studentRecord.getInstructor().toUpperCase().contentEquals(course.getInstructor().toUpperCase())){
 				return course;
 			}
 			
@@ -157,11 +158,11 @@ public List<EnrUserToCourse> decodeEnrollmentList(Object element){
 	
 	public static Boolean courseExists(CamsStudentRecord studentRecord, List<CamsCourse> camsCourses){
 		for(CamsCourse camsC: camsCourses){
-			if(studentRecord.getCourseName().contentEquals(camsC.getCourseName())
-					&& studentRecord.getDepartment().contentEquals(camsC.getDepartment())
-					&& studentRecord.getCourse().contentEquals(camsC.getCourseNum())
-					&& studentRecord.getSection().contentEquals(camsC.getSection())
-					&& studentRecord.getInstructor().contentEquals(camsC.getInstructor())){
+			if(studentRecord.getCourseName().toUpperCase().contentEquals(camsC.getCourseName().toUpperCase())
+					&& studentRecord.getDepartment().toUpperCase().contentEquals(camsC.getDepartment().toUpperCase())
+					&& studentRecord.getCourse().toUpperCase().contentEquals(camsC.getCourseNum().toUpperCase())
+					&& studentRecord.getSection().toUpperCase().contentEquals(camsC.getSection().toUpperCase())
+					&& studentRecord.getInstructor().toUpperCase().contentEquals(camsC.getInstructor().toUpperCase())){
 				return true;
 				}
 		}
@@ -187,9 +188,20 @@ public List<EnrUserToCourse> decodeEnrollmentList(Object element){
 		newCourse.setFacultyID(sr.getFacultyID());
 		newCourse.setGrouping(sr.getGrouping());
 		newCourse.setInstructor(sr.getInstructor());
-		newCourse.setSection(sr.getSection());
 		newCourse.setTermCalendarID(sr.getTermCalendarID());
-		newCourse.setCrossListedID(sr.getCrossListedID());
+		
+		//Important edge cases that shouldnt be null
+		if(sr.getSection().equals(null)|| sr.getSection().isEmpty()){
+			newCourse.setSection("No Section Available");
+		}else{
+			newCourse.setSection(sr.getSection());
+		}
+		
+		if(sr.getCrossListedID().equals(null ) || sr.getCrossListedID().isEmpty()){
+			newCourse.setCrossListedID("No Cross Listed ID Available");
+		}else{
+			newCourse.setCrossListedID(sr.getCrossListedID());
+		}
 		
 		//then create a new student object with sr data
 		CamsStudent newStudent = new CamsStudent();

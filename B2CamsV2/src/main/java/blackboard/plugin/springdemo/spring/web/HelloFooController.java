@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import blackboard.plugin.springdemo.model.Foo;
+import blackboard.plugin.springdemo.service.BbService;
 
 @Controller
 public class HelloFooController
@@ -22,8 +23,15 @@ public class HelloFooController
   @Autowired
   private SessionFactory _sessionFactory;
   
+  @Autowired
+  private BbService bbService;
+  
   @RequestMapping("/fooController")
-  public ModelAndView helloFoo(@RequestParam(value="n", required=false) String name, @RequestParam(value="v", required=false) String value) throws Exception
+  public ModelAndView helloFoo(@RequestParam(value="n", required=false) String name, @RequestParam(value="v", required=false) String value
+		  ,@RequestParam(value="username", required=false) String username,
+		  @RequestParam(value="firstName", required=false) String firstName,
+		  @RequestParam(value="lastName", required=false) String lastName
+		  ) throws Exception
   {
     if (name != null && value != null)
     {
@@ -53,6 +61,11 @@ public class HelloFooController
       {
         s.close();
       }
+    }
+    
+    if(username != null && firstName != null){
+    	
+    	bbService.createUser(username, "Student", firstName, lastName);
     }
     
     // now load the Foo's

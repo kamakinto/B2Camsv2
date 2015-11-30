@@ -1,5 +1,7 @@
 package blackboard.plugin.springdemo.spring.web;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import blackboard.data.course.Course;
+import blackboard.data.user.User;
 import blackboard.plugin.springdemo.model.CamsCourse;
+import blackboard.plugin.springdemo.model.EnrUserToCourse;
+import blackboard.plugin.springdemo.service.BbService;
 import blackboard.plugin.springdemo.service.CamsService;
 
 @Controller
@@ -16,21 +22,31 @@ public class HelloFooJPAController
 	
 	@Autowired
 	CamsService camsService;
+	
+	@Autowired 
+	private BbService bbService;
 
   // EM factory reference for our code
  
   @RequestMapping( "/fooJPAController" )
   public ModelAndView helloFoo() throws Exception
   {
-
-			List<CamsCourse >result = camsService.getWSHelloWorld();
-		
+	HashMap<Course, ArrayList<User>> courseEnrollmentMap = new HashMap<Course, ArrayList<User>>();
+	HashMap<String, ArrayList<String>> courseEnrollmentMapIds = new HashMap<String, ArrayList<String>>();
+	
+	courseEnrollmentMap = bbService.getBbCourseEnrollments(); // Blackboard Course Enrollment Map
+	courseEnrollmentMapIds = bbService.getCourseEnrollmentIDs(courseEnrollmentMap);
+	
+	List<CamsCourse> result = camsService.getEnrUserToCourses(); //Cams Course Enrollment Map
+	List<EnrUserToCourse> syncList = bbService.generateDiffCourseEnrollments(courseEnrollmentMap, result);
 	  ModelAndView mv = new ModelAndView("foo_jpa");
 	  
 	  mv.addObject("helloWS", result);
-	//  mv.addObject("helloWS", list);
-	 // mv.addObject("camsList", camsService.getCourseEnrollmentAndUsers());
-	 // mv.addObject("fooList", camsService.getFoos());
+	  mv.addObject("bbCourseEnrollmentMap", courseEnrollmentMapIds);
+	  mv.addObject("syncList", syncList);
+	
+	
+	  
 	  return mv;
   }
   

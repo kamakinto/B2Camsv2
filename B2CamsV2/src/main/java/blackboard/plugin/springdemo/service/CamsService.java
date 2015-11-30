@@ -20,11 +20,6 @@ public class CamsService {
 		return camsDao.getFoos();
 	}
 	
-	
-	public List<CamsCourse> getWSHelloWorld(){
-		return camsDao.getEnrUserToCoursesWS();
-	}
-	
 	public List<CamsCourse> getEnrUserToCourses(){
 		return camsDao.getEnrUserToCoursesWS();
 	}

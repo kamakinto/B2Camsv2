@@ -1,5 +1,7 @@
 package blackboard.plugin.springdemo.model;
 
+import blackboard.data.course.Course;
+
 public class EnrUserToCourse {
 	
 	private String studentName;
@@ -15,6 +17,7 @@ public class EnrUserToCourse {
 	private String courseURL;
 	private String courseType;
 	private String courseDescription;
+	private Course bbcourse;
 	public EnrUserToCourse(String studentName, String studentID,
 			String department, String course, String section,
 			String courseName, String instructor, String termCalendarID,
@@ -115,6 +118,12 @@ public class EnrUserToCourse {
 	}
 	public void setCourseDescription(String courseDescription) {
 		this.courseDescription = courseDescription;
+	}
+	public Course getBbcourse() {
+		return bbcourse;
+	}
+	public void setBbcourse(Course bbcourse) {
+		this.bbcourse = bbcourse;
 	}
 	
 

@@ -1,9 +1,11 @@
 package blackboard.plugin.springdemo.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,8 @@ public class BbService {
 	private BbDao bbDao;
 	
 	
+	
+	
 	public List<Course> getAllBbCourses(){
 		return bbDao.getAllBbCourses();
 	}
@@ -34,6 +38,10 @@ public class BbService {
 	
 	public User getUserById(Id id){
 		return bbDao.getUserById(id);
+	}
+	
+	public void createUser(String username, String role, String firstName, String lastName){
+		 bbDao.createUser(username, role, firstName, lastName);
 	}
 	
 	public void enrollUser(String username, String role, String courseId){
@@ -66,7 +74,7 @@ public class BbService {
 	
 public List<EnrUserToCourse> generateDiffCourseEnrollments(HashMap<Course, ArrayList<User>> bbCourseEnrollments,
 		List<CamsCourse> camsCourseEnrollments){
-	List<EnrUserToCourse> syncList = new ArrayList<EnrUserToCourse>();
+	List<EnrUserToCourse> syncList = new CopyOnWriteArrayList<EnrUserToCourse>();
 	
 	/**
 	 * 1. Iterate through the bb courses
@@ -81,22 +89,45 @@ public List<EnrUserToCourse> generateDiffCourseEnrollments(HashMap<Course, Array
 		
 		for(CamsCourse camsCourse : camsCourseEnrollments){
 			
-			if(entry.getKey().getCourseId().contentEquals(camsCourse.getCourseNum())
-					&& (entry.getKey().getCourseId().startsWith(camsCourse.getDepartment())
-							|| entry.getKey().getCourseId().startsWith(camsCourse.getCrossListedID()))){
-				//if we find a match, iterate over camsCourse's students. if you dont find the student id in 
-				//the 'entry's array list of users, then add it to the diff list we are building. 
+			if(entry.getKey().getCourseId().toUpperCase().contains(camsCourse.getCourseNum().toUpperCase())//if courses match
+			&& sectionMatch(entry, camsCourse)
+			&& (entry.getKey().getCourseId().toUpperCase().startsWith(camsCourse.getDepartment().toUpperCase())//TODO: add portion to match the Cams course section with the BB Course ID 
+			|| entry.getKey().getCourseId().toUpperCase().startsWith(camsCourse.getCrossListedID().toUpperCase()))){
+				//check for a filled in section for the CamsCourse
+				//if the ca
 				for(Map.Entry<String, CamsStudent> camsStudent: camsCourse.getCourseEnrollment().entrySet()){
-					//iterate every student, if that student doesnt exist in the blackboard course list. add to master 
+					//pick a cams student, then iterate over every student in bb, if that student doesnt exist in the blackboard 
+					//course list. add to master 
 					//list to return. 
-						for(User bbUser: entry.getValue()){
-							if(!bbUser.getUserName().contains(camsStudent.getKey())){
+						for(User bbUser: entry.getValue()){//TODO: FIX TO CHECK FOR USER EXISTANCE IN BB COURSE
+							if(!bbUser.getUserName().toUpperCase().contains(camsStudent.getKey().toUpperCase())){
 								EnrUserToCourse userToAdd = new EnrUserToCourse();
 								//populate user data with info for blackboard
-								
+								userToAdd.setCourseName(camsCourse.getCourseName());
+								userToAdd.setCourse(camsCourse.getCourseNum());
+								userToAdd.setCourseDescription(camsCourse.getCourseDescription());
+								userToAdd.setCourse(camsCourse.getCourseName());
+								userToAdd.setCourseType(camsCourse.getCourseType());
+								userToAdd.setCourseURL(camsCourse.getCourseURL());
+								userToAdd.setDepartment(camsCourse.getDepartment());
+								userToAdd.setFacultyID(camsCourse.getFacultyID());
+								userToAdd.setGrouping(camsCourse.getGrouping());
+								userToAdd.setInstructor(camsCourse.getInstructor());
+								userToAdd.setSection(camsCourse.getSection());
+								userToAdd.setStudentID(camsStudent.getValue().getStudentId());
+								userToAdd.setStudentName(camsStudent.getValue().getStudentName());
+								userToAdd.setTermCalendarID(camsCourse.getTermCalendarID());
+								userToAdd.setBbcourse(entry.getKey());
 								
 								//add the cams user to the master list of students to enroll
-								syncList.add(userToAdd);
+								//make sure the course isnt already in the list
+								if(syncList.isEmpty() || syncList == null){// makes sure list isnt empty
+									syncList.add(userToAdd);
+								}
+								if(!existsInMasterList(userToAdd, syncList)){ // makes sure user isnt already in list
+									syncList.add(userToAdd);
+								}
+								
 							}
 						}
 				}
@@ -112,12 +143,48 @@ public List<EnrUserToCourse> generateDiffCourseEnrollments(HashMap<Course, Array
 
 public void enrollUsersToCourses(List<EnrUserToCourse> courseUserMap){
 	for (EnrUserToCourse record : courseUserMap){
-//		if (bbDao.LoadByUsername(record.getUsername()) == null){
-//		//TODO: If user doesnt exist in the system, create the user	
-//		}
-		//bbDao.enrollUser(record.getUsername(), record.getRole(), record.getCourse());
+		if (bbDao.LoadByUsername("a"+ record.getStudentID()) != null){
+			bbDao.enrollUser("a"+ record.getStudentID(),"Student" , record.getBbcourse().getCourseId());
+		//TODO: If user doesnt exist in the system, SKIP OVER USER
+			//String[] name = record.getStudentName().split(",[ ]*");
+			//String[] name = record.getStudentName().split(",[ ]*");
+			//bbDao.createUser(record.getStudentID(),"", name[1], name[0]);//last name is first substring before the comma
+		}
 	}
 }
+
+public Boolean existsInMasterList(EnrUserToCourse userToEnroll,List<EnrUserToCourse> List ){
+	for(EnrUserToCourse user : List){
+		if(user.getCourse().equalsIgnoreCase(userToEnroll.getCourse())
 	
+		&& user.getCourseName().equalsIgnoreCase(userToEnroll.getCourseName())
+		&& user.getCourseType().equalsIgnoreCase(userToEnroll.getCourseType())
+		&& user.getDepartment().equalsIgnoreCase(userToEnroll.getDepartment())
+		&& user.getSection().equalsIgnoreCase(userToEnroll.getSection())
+		&& user.getStudentID().equalsIgnoreCase(userToEnroll.getStudentID())
+		&& user.getStudentName().equalsIgnoreCase(userToEnroll.getStudentName())
+		&& user.getTermCalendarID().equalsIgnoreCase(userToEnroll.getTermCalendarID())){
+			return true;
+		}
+	}
+	return false;
+}
+
+public Boolean sectionMatch(Map.Entry<Course, ArrayList<User>> entry,CamsCourse camsCourse ){
+	String bbCourseId = entry.getKey().getCourseId();
+	String camsCourseNum = camsCourse.getCourseNum();
+	int camsCourseNumLength = camsCourse.getCourseNum().length();
+	
+	
+	//Return true : if Cams has no section and Blackboard has no section. cams has a section, and blackboard has a section
+	if(camsCourse.getSection().length() > 2 
+			&& bbCourseId.substring(bbCourseId.lastIndexOf(camsCourseNum + camsCourseNumLength)).startsWith(camsCourse.getSection()))
+		 {
+		
+	}
+	//return false : if Cams has no section, but blackboard has a section. Cams has a section, but Blackboard doesnt have a section
+	
+	return null;
+}
 
 }
