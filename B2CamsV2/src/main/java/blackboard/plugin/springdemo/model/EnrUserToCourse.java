@@ -18,28 +18,13 @@ public class EnrUserToCourse {
 	private String courseType;
 	private String courseDescription;
 	private Course bbcourse;
-	public EnrUserToCourse(String studentName, String studentID,
-			String department, String course, String section,
-			String courseName, String instructor, String termCalendarID,
-			String facultyID, String grouping, String courseURL,
-			String courseType, String courseDescription) {
-		super();
-		this.studentName = studentName;
-		this.studentID = studentID;
-		this.department = department;
-		this.course = course;
-		this.section = section;
-		this.courseName = courseName;
-		this.instructor = instructor;
-		this.termCalendarID = termCalendarID;
-		this.facultyID = facultyID;
-		this.grouping = grouping;
-		this.courseURL = courseURL;
-		this.courseType = courseType;
-		this.courseDescription = courseDescription;
-	}
+
 	public EnrUserToCourse() {
 		// TODO Auto-generated constructor stub
+	}
+	public EnrUserToCourse(CamsCourse camsCourse, String studentId, String studentName, Course bbcourse ){
+		
+		
 	}
 	public String getStudentName() {
 		return studentName;

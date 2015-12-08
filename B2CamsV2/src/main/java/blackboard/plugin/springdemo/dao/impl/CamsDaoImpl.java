@@ -136,11 +136,6 @@ public List<EnrUserToCourse> decodeEnrollmentList(Object element){
 		}
 	return courses;
 	}
-	
-
-	
-
-	
 	public static CamsCourse findExistingCourse(CamsStudentRecord studentRecord, List<CamsCourse> courses){
 		for(CamsCourse course : courses){
 			if(studentRecord.getCourseName().toUpperCase().contentEquals(course.getCourseName().toUpperCase())
@@ -178,31 +173,7 @@ public List<EnrUserToCourse> decodeEnrollmentList(Object element){
 	}
 	
 	public static CamsCourse createCamsCourse(CamsStudentRecord sr){
-		CamsCourse newCourse = new CamsCourse();
-		newCourse.setCourseDescription(sr.getCourseDescription());
-		newCourse.setCourseName(sr.getCourseName());
-		newCourse.setCourseNum(sr.getCourse());
-		newCourse.setCourseType(sr.getCourseType());
-		newCourse.setCourseURL(sr.getCourseURL());
-		newCourse.setDepartment(sr.getDepartment());
-		newCourse.setFacultyID(sr.getFacultyID());
-		newCourse.setGrouping(sr.getGrouping());
-		newCourse.setInstructor(sr.getInstructor());
-		newCourse.setTermCalendarID(sr.getTermCalendarID());
-		
-		//Important edge cases that shouldnt be null
-		if(sr.getSection().equals(null)|| sr.getSection().isEmpty()){
-			newCourse.setSection("No Section Available");
-		}else{
-			newCourse.setSection(sr.getSection());
-		}
-		
-		if(sr.getCrossListedID().equals(null ) || sr.getCrossListedID().isEmpty()){
-			newCourse.setCrossListedID("No Cross Listed ID Available");
-		}else{
-			newCourse.setCrossListedID(sr.getCrossListedID());
-		}
-		
+		CamsCourse newCourse = new CamsCourse(sr); //move below code to the CamsCourse Constructor
 		//then create a new student object with sr data
 		CamsStudent newStudent = new CamsStudent();
 		newStudent.setStudentId(sr.getStudentID());
