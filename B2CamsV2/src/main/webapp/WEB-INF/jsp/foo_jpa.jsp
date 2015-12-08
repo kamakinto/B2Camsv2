@@ -31,11 +31,12 @@ List of Courses and Students in CAMS:
 
 List of All Courses and Students in Blackboard: 
 <c:forEach items="${bbCourseEnrollmentMap}" var="course">
-	Course Id = ${course.key}
+	Course Id = ${course.key.courseId}
 	<br />
-	Users = 
+	Course Name = ${course.key.title} <br />
+	Users = <br/>
 		<c:forEach items="${course.value}" var="user" varStatus="loop">
-			${user} <br /> ${!loop.last ? '' : '' }
+			${user.userName} <br /> ${!loop.last ? '' : '' }
 		</c:forEach> <br>
 	</c:forEach>
 

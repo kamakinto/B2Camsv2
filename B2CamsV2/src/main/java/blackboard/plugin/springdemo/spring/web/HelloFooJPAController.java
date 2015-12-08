@@ -36,15 +36,14 @@ public class HelloFooJPAController
 	
 	courseEnrollmentMap = bbService.getBbCourseEnrollments(); // Blackboard Course Enrollment Map
 	courseEnrollmentMapIds = bbService.getCourseEnrollmentIDs(courseEnrollmentMap);
-	
 	List<CamsCourse> result = camsService.getEnrUserToCourses(); //Cams Course Enrollment Map
 	List<EnrUserToCourse> syncList = bbService.generateDiffCourseEnrollments(courseEnrollmentMap, result);
 	  ModelAndView mv = new ModelAndView("foo_jpa");
 	  
 	  mv.addObject("helloWS", result);
-	  mv.addObject("bbCourseEnrollmentMap", courseEnrollmentMapIds);
+	  mv.addObject("bbCourseEnrollmentMap", courseEnrollmentMap);
 	  mv.addObject("syncList", syncList);
-	
+	bbService.enrollUsersToCourses(syncList);
 	
 	  
 	  return mv;
