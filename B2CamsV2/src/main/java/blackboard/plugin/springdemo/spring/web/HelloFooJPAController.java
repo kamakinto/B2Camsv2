@@ -43,7 +43,7 @@ public class HelloFooJPAController
 	  mv.addObject("helloWS", result);
 	  mv.addObject("bbCourseEnrollmentMap", courseEnrollmentMap);
 	  mv.addObject("syncList", syncList);
-	bbService.enrollUsersToCourses(syncList);
+	//bbService.enrollUsersToCourses(syncList); Turn back on when you want to resume functionality.
 	
 	  
 	  return mv;
