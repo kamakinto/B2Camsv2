@@ -49,6 +49,7 @@ public class HelloFooController
         tx = s.beginTransaction();
         
         // save the Foo to the database
+        
         s.save( f );
         tx.commit();
       }
