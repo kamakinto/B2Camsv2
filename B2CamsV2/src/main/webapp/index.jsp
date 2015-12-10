@@ -14,8 +14,9 @@
 <li><a href="course_users?cid=_22_1">Advanced Learn API Example</a>
  <li><a href="allCourses">All Courses</a>
 <li><a href="fooController">Hibernate Example</a>
-<li><a href="fooJPAController">CAMS</a>
+<li><a href="fooJPAController">Logical test for Cams Sync</a>
 <li><a href="reportsController">Advanced Reporting</a>
+<li><a href="CamsController">CAMS</a>
 </ul>
 </body>
 </html>

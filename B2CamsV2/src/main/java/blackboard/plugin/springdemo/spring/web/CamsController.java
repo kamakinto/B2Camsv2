@@ -11,6 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,18 +34,16 @@ public class CamsController {
 	
 	@Autowired
 	CamsService camsService;
+	@Autowired
+	  private SessionFactory _sessionFactory;
 	
-	  @RequestMapping( "/camsController" )
+	  @RequestMapping( "/CamsController" )
 	  public ModelAndView cams() throws Exception
 	  {
-		  //camsCourseEnrollments = getcamsCourseEnrollments(); TODO: GET CREDENTIALS TO ACCURATELY TEST CAMS PART
-		  List<CamsCourse> camsCourseEnrollments = camsService.getEnrUserToCourses();
-		  HashMap<Course, ArrayList<User>> bbCourseEnrollments = bbService.getBbCourseEnrollments();
-		  List<EnrUserToCourse> diffCourseEnrollments = bbService.generateDiffCourseEnrollments(bbCourseEnrollments,camsCourseEnrollments);
-		  bbService.enrollUsersToCourses(diffCourseEnrollments);
-		  ModelAndView mv = new ModelAndView("camsAdmin");
-
-		  mv.addObject("enrollmentList", diffCourseEnrollments);
+		  
+		  
+		  
+		  ModelAndView mv = new ModelAndView("cams_admin");
 		return mv;
 	  }
 

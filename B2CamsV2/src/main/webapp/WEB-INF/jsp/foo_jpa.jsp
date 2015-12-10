@@ -6,7 +6,7 @@
 
 <<bbNG:genericPage>
 	<bbNG:pageHeader>
-		<bbNG:pageTitleBar title="CAMS Settings"></bbNG:pageTitleBar>
+		<bbNG:pageTitleBar title="CAMS Administration"></bbNG:pageTitleBar>
 	</bbNG:pageHeader>
 
 	<bbNG:actionControlBar>
