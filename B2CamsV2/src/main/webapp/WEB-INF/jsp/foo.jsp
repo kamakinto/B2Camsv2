@@ -17,7 +17,7 @@
 
 
 
-Foo's:<br/>
+Settings:<br/>
 <c:forEach items="${fooList}" var="element">
     <c:out value="${element.name}"/> => <c:out value="${element.value}"/><br/>
 </c:forEach>

@@ -1,0 +1,26 @@
+-- Populates the prefs table with default values if it has not been previously populated.
+--
+BEGIN;
+    INSERT INTO bb_cams_props (
+    	pk1,
+		cams_enabled_ind,  
+        cams_frequency,
+        cams_user_id,
+        cams_username,
+        cams_password,
+        cams_web_address
+	)
+	SELECT 
+		nextval('bb_cams_props_SEQ'),
+		'N', 
+        '0',
+        '1',
+        'Default username',
+        'Default password',
+        'Default web address'
+	WHERE 
+    	NOT EXISTS (
+			SELECT * FROM bb_cams_props
+		);
+    COMMIT;
+END;
