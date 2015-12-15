@@ -1,0 +1,2 @@
+frequency	username	password	webaddress	syncstate
+daily	blackboard_ws_client	bl@ckboardws123	https://www-dev.aup.edu/xmlrpc.php	ON
