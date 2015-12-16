@@ -75,7 +75,21 @@ public class Properties extends AbstractIdentifiable {
 	
 	public String frequencyToString(int freqency){
 		String frequencyString ="";
-		return null;
+		
+		switch (frequency){
+		case 0:
+			frequencyString = "Hourly";
+			break;
+		case 1: 
+			frequencyString = "Twice Per Day";
+			break;
+		case 2:
+			frequencyString = "Daily";
+			break;
+		
+		}
+		
+		return frequencyString;
 	}
 
 	/**

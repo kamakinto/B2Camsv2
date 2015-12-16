@@ -28,6 +28,7 @@ import blackboard.data.course.Course;
 import blackboard.data.user.User;
 import blackboard.persist.Id;
 import blackboard.platform.servlet.InlineReceiptUtil;
+import blackboard.platform.spring.beans.annotations.ContextValue;
 import blackboard.plugin.springdemo.dao.CamsPropertiesDAO;
 import blackboard.plugin.springdemo.model.CamsCourse;
 import blackboard.plugin.springdemo.model.CamsSettings;
@@ -68,6 +69,10 @@ public class CamsController {
 		  String webaddress = props.getWebAddress();
 		   
 		  mv.addObject("username", username);
+		  mv.addObject("password", password);
+		  mv.addObject("enabled", enabled);
+		  mv.addObject("webAddress", webaddress);
+		  mv.addObject("frequency", props.frequencyToString(frequency));
 		  return mv;
 	  }
 	  
@@ -78,12 +83,11 @@ public class CamsController {
 				@RequestParam(value="username", required=false) String username,
 				@RequestParam(value="password", required=false) String password,
 				@RequestParam(value="webAddress", required=false) String webAddress,
-				@RequestParam(value="userId", required = false) String userId,
 				@RequestParam(value="frequency", required=false) int frequency) throws Exception
 {
 
 		  
-		  ModelAndView mv = new ModelAndView("cams_admin");
+		  ModelAndView mv = new ModelAndView("cams_admin_success");
 		  // dao is already instantiated, so load the current instance, since properties only has one record that we 
 		  //maintain. 
 		  
@@ -95,31 +99,29 @@ public class CamsController {
 		  props.setFrequency(frequency);
 		  props.setPassword(password);
 		  props.setUsername(username);
-		  props.setWebAddress(webAddress);
-		  
-		  try{
-			  Id userIdParam = Id.generateId(User.DATA_TYPE, userId);
-			  StringTokenizer sToken = new StringTokenizer(userIdParam.toExternalString(), "_");
-			  userIdInt = Integer.parseInt(sToken.nextToken());
-		  }catch (PersistenceException e1){
-			  e1.printStackTrace();
-		  }
-		  
+		  props.setWebAddress(webAddress);		  
 		  props.setUserId(userIdInt);
 		  
 		  //save the prefs
 		  _dao.save(props);
 		  
-//		  try{
-//			  ReceiptOptions ro = new ReceiptOptions();
-//			  ro.addSuccessMessage("Properties Successfully Updated."); //escape since variable is not intended to contain html
-//			  InlineReceiptUtil.addReceiptToRequest(request, ro);
-//			  
-//			  
-//		  }catch (IOException e){
-//			  e.printStackTrace();
-//		  }
+
 		  
 			return mv;
 }
+	  
+	  @RequestMapping( "/cams_admin_success" )
+	  public ModelAndView camsSuccess(@ContextValue User user){
+		  //Create a new ModelandView Object.
+		  
+		  
+		  String username = user.getUserName();
+		  ModelAndView mv = new ModelAndView("cams_admin_success");
+		  mv.addObject("user", username);
+		  
+		  
+		  return mv;
+	  }
+	   
+	  
 }
