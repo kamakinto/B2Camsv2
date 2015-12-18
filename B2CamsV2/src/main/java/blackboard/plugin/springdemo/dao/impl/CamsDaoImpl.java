@@ -15,15 +15,18 @@ import javax.persistence.TypedQuery;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import blackboard.plugin.springdemo.dao.CamsDao;
+import blackboard.plugin.springdemo.dao.CamsPropertiesDAO;
 import blackboard.plugin.springdemo.model.CamsCourse;
 import blackboard.plugin.springdemo.model.CamsStudent;
 import blackboard.plugin.springdemo.model.CamsStudentRecord;
 import blackboard.plugin.springdemo.model.EnrUserToCourse;
 import blackboard.plugin.springdemo.model.Foo;
+import blackboard.plugin.springdemo.model.Properties;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -40,7 +43,8 @@ public class CamsDaoImpl implements CamsDao{
      */
     public static final String METHOD_DRUPAL_CAMS_GETENROLLMENT = "blackboard_ws.getEnrollments";
 
-	
+	@Autowired
+	private CamsPropertiesDAO _dao;
 	
 	
 	@PersistenceContext(unitName="CamsHibernatePersistenceUnit")
@@ -65,12 +69,15 @@ public List<EnrUserToCourse> decodeEnrollmentList(Object element){
 	
 	@Override
 	public List<CamsCourse> getEnrUserToCoursesWS(){
-	
+		 Properties props = _dao.load();
 		String result= null;
 		List<CamsCourse> courses = new CopyOnWriteArrayList<CamsCourse>();
-		String client_username = "blackboard_ws_client";
-		String client_password = "bl@ckboardws123";
-		 String server_url = "https://www-dev.aup.edu/xmlrpc.php";
+		String client_username = props.getUsername();
+		String client_password = props.getPassword();
+		String server_url = props.getWebAddress();
+//		String client_username = "blackboard_ws_client";
+//		String client_password = "bl@ckboardws123";
+//		 String server_url = "https://www-dev.aup.edu/xmlrpc.php";
 		 
 		 
 		try{

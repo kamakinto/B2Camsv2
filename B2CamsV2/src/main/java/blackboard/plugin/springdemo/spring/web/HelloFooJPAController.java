@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,6 +26,8 @@ public class HelloFooJPAController
 	
 	@Autowired 
 	private BbService bbService;
+	
+	public String frequency_sync_cron = "";
 
   // EM factory reference for our code
  
@@ -38,7 +41,7 @@ public class HelloFooJPAController
 	courseEnrollmentMapIds = bbService.getCourseEnrollmentIDs(courseEnrollmentMap);
 	List<CamsCourse> result = camsService.getEnrUserToCourses(); //Cams Course Enrollment Map
 	List<EnrUserToCourse> syncList = bbService.generateDiffCourseEnrollments(courseEnrollmentMap, result);
-	  ModelAndView mv = new ModelAndView("foo_jpa");
+	ModelAndView mv = new ModelAndView("foo_jpa");
 	  
 	  mv.addObject("helloWS", result);
 	  mv.addObject("bbCourseEnrollmentMap", courseEnrollmentMap);
@@ -47,6 +50,21 @@ public class HelloFooJPAController
 	
 	  
 	  return mv;
+  }
+  
+ 
+  
+  
+  //@Scheduled(cron="*/5 * * * * MON-FRI") // set to twice a day
+  public void executeCamsSync(){
+	  HashMap<Course, ArrayList<User>> courseEnrollmentMap = new HashMap<Course, ArrayList<User>>();
+		HashMap<String, ArrayList<String>> courseEnrollmentMapIds = new HashMap<String, ArrayList<String>>();
+		
+		courseEnrollmentMap = bbService.getBbCourseEnrollments(); // Blackboard Course Enrollment Map
+		courseEnrollmentMapIds = bbService.getCourseEnrollmentIDs(courseEnrollmentMap);
+		List<CamsCourse> result = camsService.getEnrUserToCourses(); //Cams Course Enrollment Map
+		List<EnrUserToCourse> syncList = bbService.generateDiffCourseEnrollments(courseEnrollmentMap, result);
+		bbService.enrollUsersToCourses(syncList);
   }
   
   
