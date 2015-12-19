@@ -29,7 +29,7 @@
 		<html>
 		<body>
 			<h1> Thank you ${user} Settings Saved Successfully! </h1><br />
-	
+				<bbNG:button id="backBtn" url="/CamsController" label="Back"/>
 		
 		</body>
 		</html>
