@@ -4,6 +4,7 @@ package blackboard.plugin.springdemo.dao.impl;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -146,13 +147,34 @@ public List<EnrUserToCourse> decodeEnrollmentList(Object element){
 	return courses;
 	}
 	public static CamsCourse findExistingCourse(CamsStudentRecord studentRecord, List<CamsCourse> courses){
-		for(CamsCourse course : courses){
-			if(studentRecord.getCourseName().toUpperCase().contentEquals(course.getCourseName().toUpperCase())
-					&& studentRecord.getDepartment().toUpperCase().contentEquals(course.getDepartment().toUpperCase())
-					&& studentRecord.getCourse().toUpperCase().contentEquals(course.getCourseNum().toUpperCase())
-					&& studentRecord.getSection().toUpperCase().contentEquals(course.getSection().toUpperCase())
-					&& studentRecord.getInstructor().toUpperCase().contentEquals(course.getInstructor().toUpperCase())){
-				return course;
+		for(CamsCourse camsC : courses){
+//			if(studentRecord.getCourseName().toUpperCase().contentEquals(course.getCourseName().toUpperCase())
+//					&& studentRecord.getDepartment().toUpperCase().contentEquals(course.getDepartment().toUpperCase())
+//					&& studentRecord.getCourse().toUpperCase().contentEquals(course.getCourseNum().toUpperCase())
+//					&& studentRecord.getSection().toUpperCase().contentEquals(course.getSection().toUpperCase())
+//					&& studentRecord.getInstructor().toUpperCase().contentEquals(course.getInstructor().toUpperCase())){
+//				return course;
+//			}
+			
+			
+			if( 
+					((studentRecord.getCourseName().isEmpty() && camsC.getCourseName().contains("No Course Name Available")) || (studentRecord.getCourseName().toUpperCase().contentEquals(camsC.getCourseName().toUpperCase()) ))
+					
+					&&
+					
+					((studentRecord.getDepartment().isEmpty() && camsC.getDepartment().contains("No Department Available")) || (studentRecord.getDepartment().toUpperCase().contentEquals(camsC.getDepartment().toUpperCase())))
+					
+					&&
+					
+					((studentRecord.getCourse().isEmpty() && camsC.getCourseNum().contains("No Course Number Available")) || (studentRecord.getCourse().toUpperCase().contentEquals(camsC.getCourseNum().toUpperCase())))
+					
+					&&
+					
+					((studentRecord.getSection().isEmpty() && camsC.getSection().contains("No Section Available")) || (studentRecord.getSection().toUpperCase().contentEquals(camsC.getSection().toUpperCase())))
+					
+					//TODO: add instructor if it becomes necessary for course differentiation
+					){
+				return camsC;
 			}
 			
 		}
@@ -161,12 +183,28 @@ public List<EnrUserToCourse> decodeEnrollmentList(Object element){
 	}
 	
 	public static Boolean courseExists(CamsStudentRecord studentRecord, List<CamsCourse> camsCourses){
-		for(CamsCourse camsC: camsCourses){
-			if(studentRecord.getCourseName().toUpperCase().contentEquals(camsC.getCourseName().toUpperCase())
-					&& studentRecord.getDepartment().toUpperCase().contentEquals(camsC.getDepartment().toUpperCase())
-					&& studentRecord.getCourse().toUpperCase().contentEquals(camsC.getCourseNum().toUpperCase())
-					&& studentRecord.getSection().toUpperCase().contentEquals(camsC.getSection().toUpperCase())
-					&& studentRecord.getInstructor().toUpperCase().contentEquals(camsC.getInstructor().toUpperCase())){
+		for(CamsCourse camsC: camsCourses){// check for null or matching values
+			if( 
+					((studentRecord.getCourseName().isEmpty() && camsC.getCourseName().contains("No Course Name Available")) || (studentRecord.getCourseName().toUpperCase().contentEquals(camsC.getCourseName().toUpperCase()) ))
+					
+					&&
+					
+					((studentRecord.getDepartment().isEmpty() && camsC.getDepartment().contains("No Department Available")) || (studentRecord.getDepartment().toUpperCase().contentEquals(camsC.getDepartment().toUpperCase())))
+					
+					&&
+					
+					((studentRecord.getCourse().isEmpty() && camsC.getCourseNum().contains("No Course Number Available")) || (studentRecord.getCourse().toUpperCase().contentEquals(camsC.getCourseNum().toUpperCase())))
+					
+					&&
+					
+					((studentRecord.getSection().isEmpty() && camsC.getSection().contains("No Section Available")) || (studentRecord.getSection().toUpperCase().contentEquals(camsC.getSection().toUpperCase())))
+					
+					//TODO: add instructor if it becomes necessary for course differentiation
+					)
+					
+//					&& studentRecord.getInstructor().toUpperCase().contentEquals(camsC.getInstructor().toUpperCase()))
+					
+					{
 				return true;
 				}
 		}
@@ -175,10 +213,18 @@ public List<EnrUserToCourse> decodeEnrollmentList(Object element){
 
 	public static Boolean userExists(CamsStudentRecord studentRecord, CamsCourse course){
 		// check if student exists in course
+		//verify the list isnt empty. if it is, return false
+		
+		if(studentRecord.getStudentID() == null){
+			return false;
+		}
+		
 		if(course.getCourseEnrollment().containsKey(studentRecord.getStudentID())){
 			return true;
+		}else{
+			return false;
 		}
-		return false;
+		
 	}
 	
 	public static CamsCourse createCamsCourse(CamsStudentRecord sr){

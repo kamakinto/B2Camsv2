@@ -32,6 +32,11 @@ public class BbService {
 		return bbDao.getAllBbCourses();
 	}
 	
+	public List<Course> getSemesterBbCourses(List<Course> allBbCourses){ 
+		
+		return bbDao.getCoursesInSemester(allBbCourses);
+	}
+	
 	public List<CourseMembership> getCourseMembers(Id courseId){
 		return bbDao.getCourseMembers(courseId);
 	}
@@ -51,6 +56,8 @@ public class BbService {
 	public HashMap<Course, ArrayList<User>> getBbCourseEnrollments(){
 		HashMap<Course, ArrayList<User>> courseEnrollmentMap = new HashMap<Course, ArrayList<User>>();
 		List<Course> courses = getAllBbCourses();
+		courses = getSemesterBbCourses(courses);//call function to convert list of courses into current ones for this semester
+		 
 			for(Course course : courses){
 				courseEnrollmentMap.put(course, new ArrayList<User>());
 				List<CourseMembership> members = bbDao.getCourseMembers(course.getId());

@@ -27,8 +27,10 @@ import blackboard.persist.user.UserDbLoader;
 import blackboard.persist.user.UserDbPersister;
 import blackboard.plugin.springdemo.dao.BbDao;
 import blackboard.plugin.springdemo.dao.CamsDao;
+import blackboard.plugin.springdemo.dao.CamsPropertiesDAO;
 import blackboard.plugin.springdemo.model.CamsCourse;
 import blackboard.plugin.springdemo.model.Foo;
+import blackboard.plugin.springdemo.model.Properties;
 
 @Component
 public class BbDaoImpl implements BbDao{
@@ -47,6 +49,9 @@ public class BbDaoImpl implements BbDao{
   
   @Autowired 
   private CamsDao camsDao;
+  
+  @Autowired
+	private CamsPropertiesDAO _dao;
 
 	@Override
 	public List<Foo> getFoos() {
@@ -54,11 +59,35 @@ public class BbDaoImpl implements BbDao{
 		return null;
 	}
 	
+	//Add a method to only return the courses that are available
+	public List<Course> getAvailableBbCourses(List<Course> allBbCourses){
+		
+		//build a new list, and iterate through all the courses. only add the courses that are available to the new list.
+		
+		return null;
+	}
+	
+	@Override
+	public List<Course> getCoursesInSemester(List<Course> allBbCourses){
+		Properties props = _dao.load();
+		String semester = getSemester(props.getTerm());
+		String term = semester + props.getYear();
+		List<Course> bbCoursesInTerm = new ArrayList<Course>();
+		for(Course bbcourse: allBbCourses){
+			if(bbcourse.getId().toString().contains(term)){
+				bbCoursesInTerm.add(bbcourse);
+			}
+		} 
+		return bbCoursesInTerm;
+	}
+
+	
 	@Override
 	public List<Course> getAllBbCourses(){
 				List <Course> allCourses = new ArrayList<Course>();
 				try {
 					allCourses = _courseLoader.loadAllCourses();
+					
 				} catch (PersistenceException e) {
 					e.printStackTrace();
 				}
@@ -150,6 +179,18 @@ public class BbDaoImpl implements BbDao{
 		
 	}
 
+	public String getSemester(String semester){
+		switch (semester.toUpperCase()){
+		
+        case "FALL":  semester = "fa";
+                 break;
+        case "SUMMER":  semester = "ss";
+                 break;
+        case "SPRING":  semester = "sp";
+                 break;
+        }
+		return semester;
+	}
 	
 
 }

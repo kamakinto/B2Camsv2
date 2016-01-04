@@ -21,6 +21,7 @@
     <column name="password" data-type="nvarchar(256)" nullable="true" />
     <column name="webaddress" data-type="nvarchar(256)" nullable="true" />
      <column name="syncstate" data-type="nvarchar(256)" nullable="true" />
+    
     <primary-key name="bb_springdemo_camsSetting_pk" comment="This is the name of primary key constraint on column foo_id.">
       <columnref name="camsSetting_id" />
     </primary-key>
@@ -28,7 +29,7 @@
   
   
   
-  <table name="bb_cams_props">
+<!--   <table name="bb_cams_props">
   	<comment> This table stores the global settings for the CAMS SIS integration building block</comment>
   
   	<column name="pk1" data-type="int" nullable="false" identity="true" comment="This is the surrogate primary key for the table."/>
@@ -38,8 +39,38 @@
     <column name="cams_username" data-type="nvarchar(256)" nullable="true" />
     <column name="cams_password" data-type="nvarchar(256)" nullable="true" />
     <column name="cams_web_address" data-type="nvarchar(256)" nullable="true" />
+      <column name="cams_term" data-type="nvarchar(256)" nullable="true" />
+       <column name="cams_year" data-type="nvarchar(256)" nullable="true" />
     
     <primary-key name="bb_cams_props_pk" comment="this is the name of the primary key constraint on column settings_id.">
+    	<columnref name="pk1" />
+    </primary-key> -->
+     
+   <!--   <foreign-key name="bb_cams_props_fk2" reference-table="users" on-delete="none" comment="This is a foreign key referencing a primary key in the standard Blackboard USERS table, referential action cascade on delete (cascade) - all relevant entries will be delted if the user is deleted from the system.">
+     	<columnref name="cams_props_user_id" />
+     </foreign-key>
+       -->
+ <!--  </table> -->
+  
+  
+   <table name="bb_cams_props_a">
+  	<comment> This table stores the global settings for the CAMS SIS integration building block</comment>
+  
+  	<column name="pk1" data-type="int" nullable="false" identity="true" comment="This is the surrogate primary key for the table."/>
+  <column name="cams_enabled_ind" data-type="nvarchar(256)" nullable="true" />
+  	<column name="cams_frequency" data-type="int" nullable="true" />
+  	<column name="cams_user_id" data-type="int" nullable="true" />
+    <column name="cams_username" data-type="nvarchar(256)" nullable="true" />
+    <column name="cams_password" data-type="nvarchar(256)" nullable="true" />
+    <column name="cams_web_address" data-type="nvarchar(256)" nullable="true" />
+      <column name="cams_term" data-type="nvarchar(256)" nullable="true" />
+       <column name="cams_year" data-type="nvarchar(256)" nullable="true" />
+       <column name="cams_setting_a" data-type="nvarchar(256)" nullable="true" />
+       <column name="cams_setting_b" data-type="nvarchar(256)" nullable="true" />
+       <column name="cams_setting_c" data-type="nvarchar(256)" nullable="true" />
+       <column name="cams_setting_d" data-type="nvarchar(256)" nullable="true" />
+    
+    <primary-key name="bb_cams_props_a_pk" comment="this is the name of the primary key constraint on column settings_id.">
     	<columnref name="pk1" />
     </primary-key>
      
