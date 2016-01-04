@@ -21,7 +21,7 @@
 	</bbNG:pageHeader>
 
 	<bbNG:actionControlBar>
-		<bbNG:actionButton url="xxx.jsp" title="Sync CAMS" primary="true"/>
+		<bbNG:actionButton url="fooJPAController" title="Sync CAMS" primary="true"/>
 		<bbNG:actionButton url="xxx.jsp" title="Logs" primary="true"/>
 
 	</bbNG:actionControlBar>
@@ -38,6 +38,10 @@
 	Web Address: ${webAddress} <br/>
 	<br/>
 	Frequency: ${frequency} <br/>
+		<br/>
+	Year: ${year} <br/>
+		<br/>
+	Term: ${term} <br/>
 
 	</h3>	
 		
@@ -56,11 +60,23 @@
 				
 		<bbNG:dataElement label="Syncing Frequency">
         	<bbNG:selectElement name="frequency" size="1" >
-        	<bbNG:selectOptionElement value="0" optionLabel="Hourly" />
-        	<bbNG:selectOptionElement value="1" optionLabel="Twice Per Day" />
+  			<bbNG:selectOptionElement value="1" optionLabel="Twice Per Day" />
         	<bbNG:selectOptionElement value="2" optionLabel="Daily" />
         	</bbNG:selectElement>
       </bbNG:dataElement>
+      
+      <bbNG:dataElement label="Current Term">
+        	<bbNG:selectElement name="term" size="1" >
+  			<bbNG:selectOptionElement value="fall" optionLabel="Fall" />
+        	<bbNG:selectOptionElement value="spring" optionLabel="Spring" />
+        	<bbNG:selectOptionElement value="summer1" optionLabel="Summer 1" />
+        	<bbNG:selectOptionElement value="summer12" optionLabel="Summer 2" />
+        	</bbNG:selectElement>
+      </bbNG:dataElement>
+      
+      <bbNG:dataElement isRequired="false" label="Current Year">
+					<bbNG:textElement name="year" value="${year}" size="30" minLength="1"/>
+				</bbNG:dataElement>
 			
 			
 			</bbNG:step>

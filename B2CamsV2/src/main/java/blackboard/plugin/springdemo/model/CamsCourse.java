@@ -30,6 +30,7 @@ public CamsCourse(CamsStudentRecord sr) {
 	this.setInstructor(sr.getInstructor());
 	this.setSection(sr.getSection());
 	this.setTermCalendarID(sr.getTermCalendarID());
+	this.courseEnrollment = new HashMap<String, CamsStudent>();
 	
 }
 public String getDepartment() {

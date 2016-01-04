@@ -67,11 +67,15 @@ public class CamsController {
 		  String username = props.getUsername();
 		  String password = props.getPassword();
 		  String webaddress = props.getWebAddress();
+		  String term = props.getTerm();
+		  String year = props.getYear();
 		   
 		  mv.addObject("username", username);
 		  mv.addObject("password", password);
 		  mv.addObject("enabled", enabled);
 		  mv.addObject("webAddress", webaddress);
+		  mv.addObject("year", year);
+		  mv.addObject("term", term);
 		  mv.addObject("frequency", props.frequencyToString(frequency));
 		  return mv;
 	  }
@@ -83,6 +87,8 @@ public class CamsController {
 				@RequestParam(value="username", required=false) String username,
 				@RequestParam(value="password", required=false) String password,
 				@RequestParam(value="webAddress", required=false) String webAddress,
+				@RequestParam(value="term", required=false) String term,
+				@RequestParam(value="year", required=false) String year,
 				@RequestParam(value="frequency", required=false) int frequency) throws Exception
 {
 
@@ -101,6 +107,8 @@ public class CamsController {
 		  props.setUsername(username);
 		  props.setWebAddress(webAddress);		  
 		  props.setUserId(userIdInt);
+		  props.setTerm(term);
+		  props.setYear(year);
 		  
 		  //save the prefs
 		  _dao.save(props);
@@ -122,6 +130,23 @@ public class CamsController {
 		  
 		  return mv;
 	  }
+	  
+	  //@Scheduled(cron="0 5,19 * * *") // set to twice a day
+	  public void executeCamsSync(){
+		  Properties props = _dao.load();
+		  
+		  if(props.isEnabled()){
+			  
+			  HashMap<Course, ArrayList<User>> courseEnrollmentMap = new HashMap<Course, ArrayList<User>>();
+				//HashMap<String, ArrayList<String>> courseEnrollmentMapIds = new HashMap<String, ArrayList<String>>();
+				courseEnrollmentMap = bbService.getBbCourseEnrollments(); // Blackboard Course Enrollment Map
+				//courseEnrollmentMapIds = bbService.getCourseEnrollmentIDs(courseEnrollmentMap);
+				List<CamsCourse> result = camsService.getEnrUserToCourses(); //Cams Course Enrollment Map
+				List<EnrUserToCourse> syncList = bbService.generateDiffCourseEnrollments(courseEnrollmentMap, result);
+				bbService.enrollUsersToCourses(syncList);
+		  }
+}
+	  
 	   
 	  
 }

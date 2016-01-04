@@ -21,6 +21,8 @@ public interface BbDao {
 	 */
 	public List<Course> getAllBbCourses();
 	
+	public List<Course> getCoursesInSemester(List<Course> allbbcourse);
+	
 	/**
 	 * gets the Users enrolled in the courses
 	 * @param courseId

@@ -1,14 +1,20 @@
 -- Populates the prefs table with default values if it has not been previously populated.
 --
-IF (SELECT COUNT(*) FROM bbdn_props) = 0
+IF (SELECT COUNT(*) FROM bbdn_props_a) = 0
 BEGIN
-    INSERT INTO bb_cams_props (
+    INSERT INTO bb_cams_props_a (
 		cams_enabled_ind,  
         cams_frequency,
         cams_user_id,
         cams_username,
         cams_password,
-        cams_web_address
+        cams_web_address,
+        cams_term,
+        cams_year,
+        cams_setting_a,
+        cams_setting_b,
+        cams_setting_c,
+        cams_setting_d
         )  
     Values (  
         'N', 
@@ -16,7 +22,13 @@ BEGIN
         '1',
         'Default username',
         'Default password',
-        'Default web address'
+        'Default web address',
+        'Default Term',
+        'Default Year',
+        'Default a',
+        'Default b',
+        'Default c',
+        'Default d'
      );
 commit;
 END;

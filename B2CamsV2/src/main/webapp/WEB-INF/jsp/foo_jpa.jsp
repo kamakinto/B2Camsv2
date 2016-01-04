@@ -10,20 +10,16 @@
 	</bbNG:pageHeader>
 
 	<bbNG:actionControlBar>
-		<bbNG:actionButton url="xxx.jsp" title="Sync CAMS" primary="true"/>
+		<bbNG:actionButton url="fooJPAController" title="Sync CAMS" primary="true"/>
 		<bbNG:actionButton url="xxx.jsp" title="Logs" primary="true"/>
 
 	</bbNG:actionControlBar>
 
 		<html>
 		<body>
-		<!-- <form action="fooJPAController">
-			<br/>Name: <input type="text" name="n" value=""/>
-			<br/>Value: <input type="text" name="v" value=""/>
-			<br/><input type="submit"/>
-		</form> -->
+		<a href="CamsController">Back</a><br />
 		
-		XML-RPC Web Service Test: <br/>
+		B2Cams Sync Results <br/>
 		
 		
 		List of Courses and Students in CAMS: 
