@@ -56,9 +56,9 @@ public class BbService {
 	public HashMap<Course, ArrayList<User>> getBbCourseEnrollments(){
 		HashMap<Course, ArrayList<User>> courseEnrollmentMap = new HashMap<Course, ArrayList<User>>();
 		List<Course> courses = getAllBbCourses();
-		courses = getSemesterBbCourses(courses);//call function to convert list of courses into current ones for this semester
+		List<Course> semCourses = getSemesterBbCourses(courses);//call function to convert list of courses into current ones for this semester
 		 
-			for(Course course : courses){
+			for(Course course : semCourses){
 				courseEnrollmentMap.put(course, new ArrayList<User>());
 				List<CourseMembership> members = bbDao.getCourseMembers(course.getId());
 					for(CourseMembership member: members){
