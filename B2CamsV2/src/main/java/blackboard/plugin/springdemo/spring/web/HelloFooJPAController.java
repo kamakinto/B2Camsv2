@@ -12,14 +12,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import blackboard.data.course.Course;
 import blackboard.data.user.User;
+import blackboard.plugin.springdemo.dao.CamsPropertiesDAO;
 import blackboard.plugin.springdemo.model.CamsCourse;
 import blackboard.plugin.springdemo.model.EnrUserToCourse;
+import blackboard.plugin.springdemo.model.Properties;
 import blackboard.plugin.springdemo.service.BbService;
 import blackboard.plugin.springdemo.service.CamsService;
 
 @Controller
 public class HelloFooJPAController
 {
+	@Autowired
+	private CamsPropertiesDAO _dao; 
 	
 	@Autowired
 	CamsService camsService;
@@ -35,10 +39,11 @@ public class HelloFooJPAController
   public ModelAndView helloFoo() throws Exception
   {
 	HashMap<Course, ArrayList<User>> courseEnrollmentMap = new HashMap<Course, ArrayList<User>>();
-	HashMap<String, ArrayList<String>> courseEnrollmentMapIds = new HashMap<String, ArrayList<String>>();
-	
+	//HashMap<String, ArrayList<String>> courseEnrollmentMapIds = new HashMap<String, ArrayList<String>>();
+	Properties props = _dao.load();
+	String term = props.getTerm() + props.getYear();
 	courseEnrollmentMap = bbService.getBbCourseEnrollments(); // Blackboard Course Enrollment Map
-	courseEnrollmentMapIds = bbService.getCourseEnrollmentIDs(courseEnrollmentMap);
+	//courseEnrollmentMapIds = bbService.getCourseEnrollmentIDs(courseEnrollmentMap);
 	List<CamsCourse> result = camsService.getEnrUserToCourses(); //Cams Course Enrollment Map
 	List<EnrUserToCourse> syncList = bbService.generateDiffCourseEnrollments(courseEnrollmentMap, result);
 	ModelAndView mv = new ModelAndView("foo_jpa");
@@ -46,7 +51,8 @@ public class HelloFooJPAController
 	  mv.addObject("helloWS", result);
 	  mv.addObject("bbCourseEnrollmentMap", courseEnrollmentMap);
 	  mv.addObject("syncList", syncList);
-	//bbService.enrollUsersToCourses(syncList); Turn back on when you want to resume functionality.
+	  mv.addObject("term", term);
+	bbService.enrollUsersToCourses(syncList); 
 	
 	  
 	  return mv;
@@ -57,6 +63,8 @@ public class HelloFooJPAController
   
   //@Scheduled(cron="*/5 * * * * MON-FRI") // set to twice a day
   public void executeCamsSync(){
+	  
+	  
 	  HashMap<Course, ArrayList<User>> courseEnrollmentMap = new HashMap<Course, ArrayList<User>>();
 		HashMap<String, ArrayList<String>> courseEnrollmentMapIds = new HashMap<String, ArrayList<String>>();
 		
@@ -68,53 +76,4 @@ public class HelloFooJPAController
   }
   
   
-  
-//  @RequestMapping( "/fooJPAController" )
-//  public ModelAndView helloFoo( @RequestParam( value = "n", required = false ) String name,
-//                                @RequestParam( value = "v", required = false ) String value ) throws Exception
-//  {
-//    if ( name != null && value != null )
-//    {
-//      // let's create a Foo object
-//      Foo f = new Foo();
-//      f.setName( name );
-//      f.setValue( value );
-//
-//      // create an entity manager
-//      EntityManager em = _entityManagerFactory.createEntityManager();
-//      EntityTransaction tx = em.getTransaction();
-//
-//      try
-//      {
-//        // save the Foo to the database
-//        tx.begin();
-//        em.persist( f );
-//        tx.commit();
-//      }
-//      catch ( Exception err )
-//      {
-//        tx.rollback();
-//        throw err;
-//      }
-//      finally
-//      {
-//        em.close();
-//      }
-//    }
-//
-//    // now load the Foo's
-//    EntityManager em = _entityManagerFactory.createEntityManager();
-//    Query q = em.createQuery( "from Foo" );
-//
-//    @SuppressWarnings( "unchecked" )
-//    List<Foo> l = q.getResultList();
-//    em.close();
-//
-//    // pass the list back to the JSP view
-//    ModelAndView mv = new ModelAndView( "foo_jpa" );
-//   mv.addObject( "fooList", l );
-//    return mv;
-//  }
-
-
 }

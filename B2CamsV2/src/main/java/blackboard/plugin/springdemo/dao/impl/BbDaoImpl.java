@@ -73,9 +73,11 @@ public class BbDaoImpl implements BbDao{
 		String semester = getSemester(props.getTerm());
 		String term = semester + props.getYear();
 		List<Course> bbCoursesInTerm = new ArrayList<Course>();
+		
 		for(Course bbcourse: allBbCourses){
-			if(bbcourse.getId().toString().contains(term)){
+			if(bbcourse.getCourseId().contains(term)){
 				bbCoursesInTerm.add(bbcourse);
+				
 			}
 		} 
 		return bbCoursesInTerm;
@@ -180,16 +182,17 @@ public class BbDaoImpl implements BbDao{
 	}
 
 	public String getSemester(String semester){
-		switch (semester.toUpperCase()){
+		String sem = "";
+		switch (semester){
 		
-        case "FALL":  semester = "fa";
+        case "fall":  sem = "fa";
                  break;
-        case "SUMMER":  semester = "ss";
+        case "summer1":  sem = "ss";
                  break;
-        case "SPRING":  semester = "sp";
+        case "spring":  sem = "sp";
                  break;
         }
-		return semester;
+		return sem;
 	}
 	
 

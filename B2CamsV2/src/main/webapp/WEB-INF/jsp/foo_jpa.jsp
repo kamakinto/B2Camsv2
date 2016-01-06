@@ -37,7 +37,7 @@
 		</c:forEach>
 		<br/>
 		
-		List of All Courses and Students in Blackboard: 
+		List of All Courses and Students in Blackboard for ${term}": 
 		<c:forEach items="${bbCourseEnrollmentMap}" var="course">
 			Course Id = ${course.key.courseId}
 			<br />
