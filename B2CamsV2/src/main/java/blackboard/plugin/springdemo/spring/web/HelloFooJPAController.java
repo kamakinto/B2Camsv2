@@ -39,15 +39,22 @@ public class HelloFooJPAController
   public ModelAndView helloFoo() throws Exception
   {
 	HashMap<Course, ArrayList<User>> courseEnrollmentMap = new HashMap<Course, ArrayList<User>>();
-	//HashMap<String, ArrayList<String>> courseEnrollmentMapIds = new HashMap<String, ArrayList<String>>();
+	
 	Properties props = _dao.load();
 	String term = props.getTerm() + props.getYear();
 	courseEnrollmentMap = bbService.getBbCourseEnrollments(); // Blackboard Course Enrollment Map
-	//courseEnrollmentMapIds = bbService.getCourseEnrollmentIDs(courseEnrollmentMap);
+	
 	List<CamsCourse> result = camsService.getEnrUserToCourses(); //Cams Course Enrollment Map
 	List<EnrUserToCourse> syncList = bbService.generateDiffCourseEnrollments(courseEnrollmentMap, result);
 	ModelAndView mv = new ModelAndView("foo_jpa");
-	  
+	int numOfCamsRecords = result.size();
+	int numOfBbRecords = courseEnrollmentMap.size();
+	int numOfRecordsForSync = syncList.size();
+	
+	
+	mv.addObject("CamsRecordsSize", numOfCamsRecords);
+	mv.addObject("bbRecordSize", numOfBbRecords);
+	mv.addObject("syncListSize", numOfRecordsForSync);
 	  mv.addObject("helloWS", result);
 	  mv.addObject("bbCourseEnrollmentMap", courseEnrollmentMap);
 	  mv.addObject("syncList", syncList);
