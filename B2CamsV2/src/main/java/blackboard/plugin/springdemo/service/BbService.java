@@ -96,10 +96,7 @@ public List<EnrUserToCourse> generateDiffCourseEnrollments(HashMap<Course, Array
 	
 		for(CamsCourse camsCourse : camsCourseEnrollments){
 		
-			if(entry.getKey().getCourseId().toUpperCase().contains(camsCourse.getCourseNum().toUpperCase())//if courses match
-			&& sectionMatch(entry, camsCourse)
-			&& (entry.getKey().getCourseId().toUpperCase().startsWith(camsCourse.getDepartment().toUpperCase())
-			|| entry.getKey().getCourseId().toUpperCase().startsWith(camsCourse.getCrossListedID().toUpperCase()))){
+			if(coursesMatch(entry, camsCourse)){
 				
 				for(Map.Entry<String, CamsStudent> camsStudent: camsCourse.getCourseEnrollment().entrySet()){
 					//pick a cams student, then iterate over every student in bb, if that student doesnt exist in the blackboard 
@@ -134,7 +131,7 @@ public List<EnrUserToCourse> generateDiffCourseEnrollments(HashMap<Course, Array
 								userToAdd.setBbcourse(entry.getKey());
 								
 								//add the cams user to the master list of students to enroll
-								//make sure the course isnt already in the list
+							
 								if(syncList.isEmpty() || syncList == null){// makes sure list isnt empty
 									syncList.add(userToAdd);
 								}
@@ -202,6 +199,47 @@ public Boolean sectionMatch(Map.Entry<Course, ArrayList<User>> entry, CamsCourse
 	}else{
 		return false;
 	}
-	
 }
+
+/**
+ * Checks to see if the Blackboard Course name has the Cams record's Department code in the name.
+ * 
+ * @param entry
+ * @param camsCourse
+ * @return true: if the Blackboard Course has the Cams Department code in the course id
+ * 
+ */
+public Boolean departmentMatch(Map.Entry<Course, ArrayList<User>> entry, CamsCourse camsCourse ){
+	if(entry.getKey().getCourseId().contains("-"+camsCourse.getDepartment())
+			//|| entry.getKey().getCourseId().contains("-"+camsCourse.getDepartment()+"-") only happens in rare circumstances
+			|| entry.getKey().getCourseId().startsWith(camsCourse.getDepartment())
+			){
+		return true;
+	}
+	return false;
+}
+
+
+/**
+ * Matches the number of the cams record with the course id of the blackboard course
+ * @param entry: Blackboard course record
+ * @param camsCourse: Cams course record
+ * @return
+ */
+public Boolean courseNumMatch(Map.Entry<Course, ArrayList<User>> entry, CamsCourse camsCourse ){
+	if(entry.getKey().getCourseId().toUpperCase().contains(camsCourse.getCourseNum().toUpperCase())){
+		return true;
+	}
+	return false;
+}
+
+public Boolean coursesMatch(Map.Entry<Course, ArrayList<User>> entry, CamsCourse camsCourse){
+	if(courseNumMatch(entry,camsCourse)&& sectionMatch(entry, camsCourse)&& departmentMatch(entry, camsCourse)){
+		return true;
+	}
+	return false;
+	}
+
+
+
 }

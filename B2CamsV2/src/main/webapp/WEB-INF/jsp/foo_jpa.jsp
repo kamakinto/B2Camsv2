@@ -19,17 +19,21 @@
 		<body>
 		<a href="CamsController">Back</a><br />
 		
-		B2Cams Sync Results <br/>
+		<b> B2Cams Sync Results </b><br/>
+		<b> Cams Records:</b> ${CamsRecordsSize} <br />
+		<b> Blackboard Course's for the ${term} :</b> ${bbRecordSize}<br />
+		<b>Number of records to be synced to Bb:</b> ${syncListSize}<br />
+		<br />
 		
 		
-		List of Courses and Students in CAMS: 
+	<b>	List of Courses and Students in CAMS:</b> <br/>
 		<c:forEach items="${helloWS}" var="elem">
 		   Course Name: <c:out value="${elem.courseName}"/> <br/>
 		   Course Number:  <c:out value="${elem.courseNum}"/> <br/>
 		   Course Section:  <c:out value="${elem.section}"/> <br/>
 		   Course Department: <c:out value="${elem.department}"/> <br/>
 		   Course CrossListed ID:  <c:out value="${elem.crossListedID}"/> <br/>
-		    Students: 
+		    Students: <br/>
 		    <c:forEach items="${elem.courseEnrollment}" var="item" varStatus= "loop">
 		    	${item.key} , ${item.value.studentName} ${!loop.last ? ',' : ''}
 		    	<br/>
@@ -37,7 +41,7 @@
 		</c:forEach>
 		<br/>
 		
-		List of All Courses and Students in Blackboard for ${term}": 
+		<b>List of All Courses and Students in Blackboard for ${term}":</b> <br />
 		<c:forEach items="${bbCourseEnrollmentMap}" var="course">
 			Course Id = ${course.key.courseId}
 			<br />
@@ -49,7 +53,7 @@
 			</c:forEach>
 		
 		
-		List of Students in Cams that are not in blackboard: 
+		<b> List of Students in Cams that are not in blackboard: </b><br />
 		<c:forEach items="${syncList}" var="courseUsersToEnroll"> 
 					Course: <c:out value= "${courseUsersToEnroll.courseName}" /><br />
 					Student username: <c:out value= "${courseUsersToEnroll.studentID}" /><br />

@@ -75,7 +75,7 @@
       </bbNG:dataElement>
       
       <bbNG:dataElement isRequired="false" label="Current Year">
-					<bbNG:textElement name="year" value="${year}" size="30" minLength="1"/>
+					<bbNG:textElement name="year" value="${year}" size="2" minLength="2"/>
 				</bbNG:dataElement>
 			
 			
