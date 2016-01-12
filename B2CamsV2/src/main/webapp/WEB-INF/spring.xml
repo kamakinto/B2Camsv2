@@ -4,6 +4,7 @@
   xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
   xmlns:tx="http://www.springframework.org/schema/tx" 
   xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+  xmlns:task="http://www.springframework.org/schema/task"
   xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
                            http://www.springframework.org/schema/context
@@ -14,6 +15,8 @@
                			   http://www.springframework.org/schema/tx/spring-tx.xsd 
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+                           http://www.springframework.org/schema/task 
+                           http://www.springframework.org/schema/task/spring-task-3.1.xsd
                            ">
 
   <!-- Handles configuring the bean factory to handle auto-wiring some default Learn types like Loaders, services and extensions. -->
@@ -22,6 +25,8 @@
 
   <!-- Tells Spring that we're using annotations on our classes. -->
   <context:annotation-config />
+  <task:annotation-driven />
+ 
   
  
   

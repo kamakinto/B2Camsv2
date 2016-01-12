@@ -3,7 +3,10 @@ package blackboard.plugin.springdemo.spring.web;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -18,6 +21,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,6 +73,7 @@ public class CamsController {
 		  String webaddress = props.getWebAddress();
 		  String term = props.getTerm();
 		  String year = props.getYear();
+		  String message = props.getSetting_a();
 		   
 		  mv.addObject("username", username);
 		  mv.addObject("password", password);
@@ -77,6 +82,7 @@ public class CamsController {
 		  mv.addObject("year", year);
 		  mv.addObject("term", term);
 		  mv.addObject("frequency", props.frequencyToString(frequency));
+		  mv.addObject("message", message);
 		  return mv;
 	  }
 	  
@@ -131,16 +137,21 @@ public class CamsController {
 		  return mv;
 	  }
 	  
-	  //@Scheduled(cron="0 5,19 * * *") // set to twice a day
+	  @Scheduled(cron="0 0 5,19 * * *") // set to twice a day
+	  //@Scheduled(cron="0 0/5 * * * *")
 	  public void executeCamsSync(){
+		  DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		  Date date = new Date();
 		  Properties props = _dao.load();
 		  
+		  String message = "The Last Time Sync Ran was: " + dateFormat.format(date);
+		  
+		  props.setSetting_a(message);
+		  _dao.save(props);
 		  if(props.isEnabled()){
 			  
 			  HashMap<Course, ArrayList<User>> courseEnrollmentMap = new HashMap<Course, ArrayList<User>>();
-				//HashMap<String, ArrayList<String>> courseEnrollmentMapIds = new HashMap<String, ArrayList<String>>();
 				courseEnrollmentMap = bbService.getBbCourseEnrollments(); // Blackboard Course Enrollment Map
-				//courseEnrollmentMapIds = bbService.getCourseEnrollmentIDs(courseEnrollmentMap);
 				List<CamsCourse> result = camsService.getEnrUserToCourses(); //Cams Course Enrollment Map
 				List<EnrUserToCourse> syncList = bbService.generateDiffCourseEnrollments(courseEnrollmentMap, result);
 				bbService.enrollUsersToCourses(syncList);

@@ -42,6 +42,8 @@
 	Year: ${year} <br/>
 		<br/>
 	Term: ${term} <br/>
+	
+	Message: ${message}<br />
 
 	</h3>	
 		
