@@ -138,7 +138,6 @@ public class CamsController {
 	  }
 	  
 	  @Scheduled(cron="0 0 5,19 * * *") // set to twice a day
-	  //@Scheduled(cron="0 0/5 * * * *")
 	  public void executeCamsSync(){
 		  DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		  Date date = new Date();
@@ -155,8 +154,35 @@ public class CamsController {
 				List<CamsCourse> result = camsService.getEnrUserToCourses(); //Cams Course Enrollment Map
 				List<EnrUserToCourse> syncList = bbService.generateDiffCourseEnrollments(courseEnrollmentMap, result);
 				bbService.enrollUsersToCourses(syncList);
+				
+				//delete users who dropped
+				HashMap<Course, ArrayList<User>> courseEnrollmentMapForDrop = new HashMap<Course, ArrayList<User>>();
+				courseEnrollmentMapForDrop = bbService.getBbCourseEnrollments(); // Blackboard Course Enrollment Map
+				List<EnrUserToCourse> dropList = bbService.generateDropList(courseEnrollmentMapForDrop, result);
+				bbService.removeUsersFromCourses(dropList);
 		  }
+		  
+		  
 }
+	  
+	  
+	  @RequestMapping( "/CamsUserSync" )
+	  public ModelAndView camsUserSync(){
+		  //Create a new ModelandView Object.
+		  ModelAndView mv = new ModelAndView("cams_user_sync");  
+		  
+		  Properties props = _dao.load();
+		  List<String> testUserList = new ArrayList<String>();
+		  
+		  testUserList.add("Robbie");
+		  testUserList.add("Ann");
+		  testUserList.add("Oriane");
+		  int newStudents = 10;
+		  mv.addObject("testUserList", testUserList);
+		  mv.addObject("numOfNewStudents", newStudents);
+		 
+		  return mv;
+	  }
 	  
 	   
 	  

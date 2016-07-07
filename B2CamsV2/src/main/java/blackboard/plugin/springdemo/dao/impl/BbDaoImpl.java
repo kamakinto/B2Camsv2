@@ -136,6 +136,33 @@ public class BbDaoImpl implements BbDao{
 		
 	}
 	
+	/**
+	 * Removes users from courses only if 
+	 */
+	@Override
+	public void removeUser(String username, String role, String courseId) {
+		if(role.contains("STUDENT")){
+			
+			try{
+				CourseMembership newEnrollment = new CourseMembership();
+				if(role.contains("INSTRUCTOR")){
+					newEnrollment.setRole(CourseMembership.Role.INSTRUCTOR);	
+				}else{
+					newEnrollment.setRole(CourseMembership.Role.STUDENT);
+				}
+			newEnrollment.setUserId(_userLoader.loadByUserName(username).getId());
+			newEnrollment.setCourseId(_courseLoader.loadByCourseId(courseId).getId());
+			
+			CourseMembershipDbPersister.Default.getInstance().deleteByCourseIdAndUserId(newEnrollment.getCourseId(), newEnrollment.getUserId());
+			} catch (PersistenceException e) {
+				e.printStackTrace();
+			} 
+		}
+	
+		
+	}
+	
+	
 	@Override
 	public void createUser(String username, String role, String firstName, String lastName){
 		String emailAddress = username + "@aup.edu";
@@ -194,6 +221,8 @@ public class BbDaoImpl implements BbDao{
         }
 		return sem;
 	}
+
+	
 	
 
 }

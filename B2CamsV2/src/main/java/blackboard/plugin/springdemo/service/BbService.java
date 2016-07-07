@@ -53,6 +53,8 @@ public class BbService {
 		bbDao.enrollUser(username, role, courseId);
 	}
 	
+	
+	
 	public HashMap<Course, ArrayList<User>> getBbCourseEnrollments(){
 		HashMap<Course, ArrayList<User>> courseEnrollmentMap = new HashMap<Course, ArrayList<User>>();
 		List<Course> courses = getAllBbCourses();
@@ -78,6 +80,73 @@ public class BbService {
 		}
 		return courseEnrollmentIds;
 }
+	
+	public List<EnrUserToCourse> generateDropList(HashMap<Course, ArrayList<User>> bbCourseEnrollments,
+		List<CamsCourse> camsCourseEnrollments){
+		
+
+		List<EnrUserToCourse> syncList = new CopyOnWriteArrayList<EnrUserToCourse>();
+		
+		/**
+		 * 1. Iterate through the bb courses
+		 * 2. find the corresponding course in cams
+		 * 3. get the list of users in cams that are NOT in blackboard for the course. (go through cams list and
+		 * if the user does not show up the blackboard list, add that username and info to the diff list. if user is in both, do nothing
+		 * we only want a list of users that are in cams, but not in bb. with that list. we have the updated "added" users. 
+		 */
+		
+		//1 - loops through each entry in BB entries. 
+		for(Map.Entry<Course, ArrayList<User>> entry: bbCourseEnrollments.entrySet()){
+		
+			for(CamsCourse camsCourse : camsCourseEnrollments){
+			
+				if(coursesMatch(entry, camsCourse)){
+					
+					for(Map.Entry<String, CamsStudent> camsStudent: camsCourse.getCourseEnrollment().entrySet()){
+						//pick a Blackboard student, then iterate over every student in Cams, if that student doesnt exist in the CAMS
+						//course list. add to master 
+						//list to return. 
+					
+							for(User bbUser: entry.getValue()){//TODO: FIX TO CHECK FOR USER EXISTANCE IN BB COURSE,
+								if(!bbUser.getUserName().toUpperCase().contains(camsStudent.getKey().toUpperCase())){
+									EnrUserToCourse userToAdd = new EnrUserToCourse();
+									//populate user data with info for blackboard
+									userToAdd.setCourseName(camsCourse.getCourseName());
+									userToAdd.setCourse(camsCourse.getCourseNum());
+									userToAdd.setCourseDescription(camsCourse.getCourseDescription());
+									userToAdd.setCourse(camsCourse.getCourseName());
+									userToAdd.setCourseType(camsCourse.getCourseType());
+									userToAdd.setCourseURL(camsCourse.getCourseURL());
+									userToAdd.setDepartment(camsCourse.getDepartment());
+									userToAdd.setFacultyID(camsCourse.getFacultyID());
+									userToAdd.setGrouping(camsCourse.getGrouping());
+									userToAdd.setInstructor(camsCourse.getInstructor());
+									userToAdd.setSection(camsCourse.getSection());
+									userToAdd.setStudentID(camsStudent.getValue().getStudentId());
+									userToAdd.setStudentName(camsStudent.getValue().getStudentName());
+									userToAdd.setTermCalendarID(camsCourse.getTermCalendarID());
+									userToAdd.setBbcourse(entry.getKey());
+									
+									//add the cams user to the master list of students to enroll
+								
+									if(syncList.isEmpty() || syncList == null){// makes sure list isnt empty
+										syncList.add(userToAdd);
+									}
+									if(!existsInMasterList(userToAdd, syncList)){ // makes sure user isnt already in list
+										syncList.add(userToAdd);
+									}
+									
+								}
+							}
+					}
+					
+				}
+			}
+			
+			
+		}
+		return syncList;
+	}
 	
 public List<EnrUserToCourse> generateDiffCourseEnrollments(HashMap<Course, ArrayList<User>> bbCourseEnrollments,
 		List<CamsCourse> camsCourseEnrollments){
@@ -156,10 +225,14 @@ public void enrollUsersToCourses(List<EnrUserToCourse> courseUserMap){
 	for (EnrUserToCourse record : courseUserMap){
 		if (bbDao.LoadByUsername("a"+ record.getStudentID()) != null){
 			bbDao.enrollUser("a"+ record.getStudentID(),"Student" , record.getBbcourse().getCourseId());
-		//TODO: If user doesnt exist in the system, SKIP OVER USER
-			//String[] name = record.getStudentName().split(",[ ]*");
-			//String[] name = record.getStudentName().split(",[ ]*");
-			//bbDao.createUser(record.getStudentID(),"", name[1], name[0]);//last name is first substring before the comma
+		}
+	}
+}
+
+public void removeUsersFromCourses(List<EnrUserToCourse> courseUserMap){
+	for (EnrUserToCourse record : courseUserMap){
+		if (bbDao.LoadByUsername("a"+ record.getStudentID()) != null){
+			bbDao.removeUser("a"+ record.getStudentID(),"Student" , record.getBbcourse().getCourseId());
 		}
 	}
 }

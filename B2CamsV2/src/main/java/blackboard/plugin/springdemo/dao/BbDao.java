@@ -39,7 +39,7 @@ public interface BbDao {
 	public void enrollUser(String username, String role, String courseId);
 	public User LoadByUsername(String username);
 	public void createUser(String username, String role, String firstName, String lastName);
-	
+	public void removeUser(String username, String Role, String courseID);
 
 	
 
