@@ -15,11 +15,7 @@ public class CamsService {
 	@Autowired
 	private CamsDao camsDao;
 	
-	
-	public List<Foo> getFoos(){
-		return camsDao.getFoos();
-	}
-	
+		
 	public List<CamsCourse> getEnrUserToCourses(){
 		return camsDao.getEnrUserToCoursesWS();
 	}

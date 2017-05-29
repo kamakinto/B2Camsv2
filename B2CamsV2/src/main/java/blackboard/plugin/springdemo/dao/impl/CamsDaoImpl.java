@@ -47,22 +47,7 @@ public class CamsDaoImpl implements CamsDao{
 	@Autowired
 	private CamsPropertiesDAO _dao;
 	
-	
-	@PersistenceContext(unitName="CamsHibernatePersistenceUnit")
-	private EntityManager entityManagerCams;
-
-	@Override
-	@Transactional
-	public List<Foo> getFoos() {
-		String qlString = "SELECT p FROM Foo p";
-		TypedQuery<Foo> query = entityManagerCams.createQuery(qlString, Foo.class);
-		return query.getResultList();
 		
-}
-
-	
-	
-	
 public List<EnrUserToCourse> decodeEnrollmentList(Object element){
 		
 		return null;

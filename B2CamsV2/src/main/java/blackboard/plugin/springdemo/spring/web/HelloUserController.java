@@ -2,8 +2,7 @@ package blackboard.plugin.springdemo.spring.web;
 
 import blackboard.data.user.User;
 
-import blackboard.platform.spring.beans.annotations.ContextValue;
-import blackboard.platform.spring.beans.annotations.UserAuthorization;
+import blackboard.platform.spring.beans.annotations.*;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

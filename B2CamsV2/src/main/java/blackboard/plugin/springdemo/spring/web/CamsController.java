@@ -1,25 +1,13 @@
 package blackboard.plugin.springdemo.spring.web;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.StringTokenizer;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceException;
-
-import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -27,17 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import blackboard.data.ReceiptOptions;
 import blackboard.data.course.Course;
 import blackboard.data.user.User;
-import blackboard.persist.Id;
-import blackboard.platform.servlet.InlineReceiptUtil;
-import blackboard.platform.spring.beans.annotations.ContextValue;
+import blackboard.platform.spring.beans.annotations.*;
 import blackboard.plugin.springdemo.dao.CamsPropertiesDAO;
 import blackboard.plugin.springdemo.model.CamsCourse;
-import blackboard.plugin.springdemo.model.CamsSettings;
 import blackboard.plugin.springdemo.model.EnrUserToCourse;
-import blackboard.plugin.springdemo.model.Foo;
 import blackboard.plugin.springdemo.model.Properties;
 import blackboard.plugin.springdemo.service.BbService;
 import blackboard.plugin.springdemo.service.CamsService;

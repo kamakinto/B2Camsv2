@@ -18,6 +18,7 @@ import blackboard.persist.PersistenceException;
 import blackboard.persist.course.CourseDbLoader;
 import blackboard.persist.course.CourseMembershipDbLoader;
 import blackboard.persist.user.UserDbLoader;
+import blackboard.platform.spring.beans.annotations.*;
 import blackboard.platform.spring.web.annotations.IdParam;
 import blackboard.plugin.springdemo.model.CamsCourse;
 import blackboard.plugin.springdemo.model.EnrUserToCourse;

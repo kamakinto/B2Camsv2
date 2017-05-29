@@ -28,8 +28,6 @@
   <task:annotation-driven />
  
   
- 
-  
   <!-- Include the default set of argument resolvers to handle Id objects, standard Learn types like User and Context values. -->
   <mvc:annotation-driven>
     <mvc:argument-resolvers>
@@ -60,32 +58,7 @@
   <bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>  
   <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
   	 
-  
-  <!-- DataSource for Remote databases --> 
-  <bean id="CamsDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-  <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-  <property name="url" value="jdbc:mysql://www.db4free.net:3306/camstest"/>
-  <property name="username" value="root"/>
-  <property name="password" value="password"/>
- </bean>
  
-<!--<bean id="CamsDataSource" class="org.apache.commons.dbcp.BasicDataSource" 
-	destroy-method="close">
-  <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-  <property name="url" value="jdbc:sqlserver://192.xxx.x.xx;instanceName=db-erp;databaseName=CAMS_Enterprise_Test;selectMethod=cursor"/>
-  <property name="username" value="arc"/>
-  <property name="password" value="Integr43!"/>
-  <property name="initialSize" value="10"/>
-  <property name="maxActive" value="5"/>
-  <property name="maxWait" value="5000" />
-</bean>
- 
-   <bean id="CamsDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-  <property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver"/>
-  <property name="url" value="jdbc:jtds:sqlserver://192.xxx.x.xx:1433/exampledb"/>
-  <property name="username" value="erobinson"/>
-  <property name="password" value="hitokiru"/>
- </bean> -->
  <!-- Entity Manager Factories -->     
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">  
   	<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />  
@@ -95,33 +68,14 @@
     <property name="jpaDialect" ref="jpaDialect"/>  
   </bean> 
     
-    <bean id="CamsEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">  
-  	<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />  
-    <property name="persistenceUnitName" value="CamsHibernatePersistenceUnit" />  
-    <property name="dataSource" ref="CamsDataSource" />  
-    <property name="jpaVendorAdapter">
-   	 <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-            <property name="showSql" value="false"/>
-            <property name="generateDdl" value="true"/>
-            <property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect"/>
-           <!--  <property name="packagesToScan" value ="blackboard.plugin.springdemo.model"/> -->
-        </bean>
-    </property> 
-    <property name="jpaDialect" ref="jpaDialect"/>  
-  </bean>  
+  
   
   <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">  
     <property name="entityManagerFactory" ref="entityManagerFactory" />  
   </bean>  
-  
-  <bean id="CamsTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-  	<property name="entityManagerFactory" ref="CamsEntityManagerFactory"/>
-  </bean>
-  
+ 
   <tx:annotation-driven transaction-manager="transactionManager" />
   
-   <!-- Set up Spring Data  -->
-  <!-- <jpa:repositories base-package="blackboard.plugin.springdemo.repository"/> -->
   
   <!-- Basic resolver for mapping to the proper JSPs -->
   <bean id="primaryViewResolver"

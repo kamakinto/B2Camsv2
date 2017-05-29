@@ -58,6 +58,8 @@
       <permission type="java.lang.RuntimePermission" name="accessDeclaredMembers" />
       <permission type="java.lang.RuntimePermission" name="createClassLoader" />
       <permission type="java.lang.RuntimePermission" name="setContextClassLoader" />
+      <permission type="java.lang.RuntimePermission" name="getProtectionDomain" />
+      
       <permission type="java.io.FilePermission" name="${java.home}/lib/*" actions="read" />
     </permissions>
 

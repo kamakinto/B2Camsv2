@@ -10,8 +10,6 @@ import blackboard.plugin.springdemo.model.Foo;
 
 public interface CamsDao {
 	
-	public List<Foo> getFoos();
-
 	List<CamsCourse> getEnrUserToCoursesWS();
 	
 	
