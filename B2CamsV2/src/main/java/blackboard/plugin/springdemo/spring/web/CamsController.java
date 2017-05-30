@@ -121,7 +121,7 @@ public class CamsController {
 	  }
 	  
 	  @Scheduled(cron="0 0 5,19 * * *") // set to twice a day
-	  //@Scheduled(cron="0 0/5 * * * *")
+	  
 	  public void executeCamsSync(){
 		  DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		  Date date = new Date();
