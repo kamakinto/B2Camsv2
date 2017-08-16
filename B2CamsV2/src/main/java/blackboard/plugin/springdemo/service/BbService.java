@@ -151,15 +151,81 @@ public List<EnrUserToCourse> generateDiffCourseEnrollments(HashMap<Course, Array
 	return syncList;
 }
 
+public List<EnrUserToCourse> generateUnenrollmentList(HashMap<Course, ArrayList<User>> bbCourseEnrollments,
+		List<CamsCourse> camsCourseEnrollments){
+	List<EnrUserToCourse> syncList = new CopyOnWriteArrayList<EnrUserToCourse>();
+	
+	/**
+	 * 1. Iterate through the bb courses
+	 * 2. find the corresponding course in cams
+	 * 3. get the list of users in Blackboard that are NOT in Cams for the course. (go through bb list and
+	 * if the user does not show up in the CAMS list, add that username and info to the diff list. if user is in both, do nothing
+	 * we only want a list of users that are in blackboard, but not in CAMS. with that list. we have the updated "added" users. 
+	 */
+	
+	//1 - loops through each entry in BB entries. 
+	for(Map.Entry<Course, ArrayList<User>> entry: bbCourseEnrollments.entrySet()){
+	
+		for(CamsCourse camsCourse : camsCourseEnrollments){
+		
+			if(coursesMatch(entry, camsCourse)){
+				
+				for(User bbUser: entry.getValue()){
+					//Check if the Blackboard User (bbUser) is in the Cams list (camsCourse)
+					//If the Blackboard user is NOT in the Cam's list, then that user needs to be added to the sync list.
+						if (!camsCourse.getCourseEnrollment().containsKey(bbUser.getUserName())) { //see if we can evaluate it w/o worrying about case sensitivity
+							EnrUserToCourse userToAdd = new EnrUserToCourse();
+							userToAdd.setCourseName(camsCourse.getCourseName());
+							userToAdd.setCourse(camsCourse.getCourseNum());
+							userToAdd.setCourseDescription(camsCourse.getCourseDescription());
+							userToAdd.setCourse(camsCourse.getCourseName());
+							userToAdd.setCourseType(camsCourse.getCourseType());
+							userToAdd.setCourseURL(camsCourse.getCourseURL());
+							userToAdd.setDepartment(camsCourse.getDepartment());
+							userToAdd.setFacultyID(camsCourse.getFacultyID());
+							userToAdd.setGrouping(camsCourse.getGrouping());
+							userToAdd.setInstructor(camsCourse.getInstructor());
+							userToAdd.setSection(camsCourse.getSection());
+							userToAdd.setStudentID(bbUser.getUserName());
+							userToAdd.setStudentName(bbUser.getGivenName());
+							userToAdd.setTermCalendarID(camsCourse.getTermCalendarID());
+							userToAdd.setBbcourse(entry.getKey());
+							
+							//add the cams user to the master list of students to enroll
+						
+							if(syncList.isEmpty() || syncList == null){// makes sure list isnt empty
+								syncList.add(userToAdd);
+							}
+							if(!existsInMasterList(userToAdd, syncList)){ // makes sure user isnt already in list
+								syncList.add(userToAdd);
+							}
+						}
+							
+						}
+		
+				}
+
+				
+			}
+		
+	}
+	return syncList;
+}
+
+
 
 public void enrollUsersToCourses(List<EnrUserToCourse> courseUserMap){
 	for (EnrUserToCourse record : courseUserMap){
 		if (bbDao.LoadByUsername("a"+ record.getStudentID()) != null){
 			bbDao.enrollUser("a"+ record.getStudentID(),"Student" , record.getBbcourse().getCourseId());
-		//TODO: If user doesnt exist in the system, SKIP OVER USER
-			//String[] name = record.getStudentName().split(",[ ]*");
-			//String[] name = record.getStudentName().split(",[ ]*");
-			//bbDao.createUser(record.getStudentID(),"", name[1], name[0]);//last name is first substring before the comma
+		}
+	}
+}
+
+public void UnenrollUsersToCourses(List<EnrUserToCourse> courseUserMap){
+	for (EnrUserToCourse record : courseUserMap){
+		if (bbDao.LoadByUsername("a"+ record.getStudentID()) != null){
+			bbDao.enrollUser("a"+ record.getStudentID(),"Student" , record.getBbcourse().getCourseId());
 		}
 	}
 }

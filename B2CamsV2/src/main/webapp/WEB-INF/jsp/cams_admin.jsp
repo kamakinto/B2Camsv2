@@ -22,7 +22,9 @@
 
 	<bbNG:actionControlBar>
 		<bbNG:actionButton url="fooJPAController" title="Sync CAMS" primary="true"/>
-		<bbNG:actionButton url="xxx.jsp" title="Logs" primary="true"/>
+	<%-- 	<bbNG:actionButton url="BatchUnenroll" title="unenroll Users" primary="true" /> --%>
+		
+		<%-- <bbNG:actionButton url="xxx.jsp" title="Logs" primary="true"/> --%>
 
 	</bbNG:actionControlBar>
 
