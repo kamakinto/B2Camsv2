@@ -65,6 +65,37 @@ public class HelloFooJPAController
 	  return mv;
   }
   
+  @RequestMapping( "/BatchUnenroll" )
+  public ModelAndView BatchUnenrollment() throws Exception
+  {
+	HashMap<Course, ArrayList<User>> courseEnrollmentMap = new HashMap<Course, ArrayList<User>>();
+	
+	Properties props = _dao.load();
+	String term = props.getTerm() + props.getYear();
+	courseEnrollmentMap = bbService.getBbCourseEnrollments(); // Blackboard Course Enrollment Map
+	
+	List<CamsCourse> result = camsService.getEnrUserToCourses(); //Cams Course Enrollment Map
+	List<EnrUserToCourse> syncList = bbService.generateUnenrollmentList(courseEnrollmentMap, result);
+	ModelAndView mv = new ModelAndView("unenroll_results");
+	int numOfCamsRecords = result.size();
+	int numOfBbRecords = courseEnrollmentMap.size();
+	int numOfRecordsForSync = syncList.size();
+	
+	
+	mv.addObject("CamsRecordsSize", numOfCamsRecords);
+	mv.addObject("bbRecordSize", numOfBbRecords);
+	mv.addObject("syncListSize", numOfRecordsForSync);
+	  mv.addObject("helloWS", result);
+	  mv.addObject("bbCourseEnrollmentMap", courseEnrollmentMap);
+	  mv.addObject("syncList", syncList);
+	  mv.addObject("term", term);
+	//bbService.UnenrollUsersToCourses(syncList);
+	
+	  
+	  return mv;
+  }
+  
+  
  
   
   
@@ -80,6 +111,18 @@ public class HelloFooJPAController
 		List<CamsCourse> result = camsService.getEnrUserToCourses(); //Cams Course Enrollment Map
 		List<EnrUserToCourse> syncList = bbService.generateDiffCourseEnrollments(courseEnrollmentMap, result);
 		bbService.enrollUsersToCourses(syncList);
+  }
+  
+  public void unenrollCourseSync(){
+	HashMap<Course, ArrayList<User>> courseEnrollmentMap = new HashMap<Course, ArrayList<User>>();
+	HashMap<String, ArrayList<String>> courseEnrollmentMapIds = new HashMap<String, ArrayList<String>>();
+	List<CamsCourse> result = camsService.getEnrUserToCourses(); //Cams Course Enrollment Map
+
+		
+	courseEnrollmentMap = bbService.getBbCourseEnrollments(); // Blackboard Course Enrollment Map
+	List<EnrUserToCourse> syncList = bbService.generateUnenrollmentList(courseEnrollmentMap, result);
+	bbService.UnenrollUsersToCourses(syncList);
+			  
   }
   
   
