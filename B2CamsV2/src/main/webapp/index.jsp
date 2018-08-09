@@ -16,7 +16,7 @@
 <!-- <li><a href="fooJPAController">Logical test for Cams Sync</a>
 <li><a href="reportsController">Advanced Reporting</a> -->
 <li><a href="CamsController">CAMS Settings</a>
-<li><a href="hello">Learn API Examplee</a>
+<li><a href="hello">Learn API Example</a>
 </ul>
 </body>
 </html>
