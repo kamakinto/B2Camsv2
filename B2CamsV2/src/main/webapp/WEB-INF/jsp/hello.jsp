@@ -13,8 +13,11 @@
 		
 		Testing the text after the control button 1
 		<bbNG:actionButton url="xxx.jsp" title="View Courses" primary="true"/>
+		Put view courses options
 		<bbNG:actionButton url="xxx.jsp" title="Create Courses" primary="true"/>
+		Add create courses option
 		<bbNG:actionButton url="xxx.jsp" title="Delete Courses" primary="true"/>
+		Delete courses option
 	</bbNG:actionControlBar>
 	
 	

@@ -16,6 +16,7 @@ import blackboard.plugin.springdemo.dao.CamsPropertiesDAO;
 import blackboard.plugin.springdemo.model.CamsCourse;
 import blackboard.plugin.springdemo.model.EnrUserToCourse;
 import blackboard.plugin.springdemo.model.Properties;
+import blackboard.plugin.springdemo.model.Usersync;
 import blackboard.plugin.springdemo.service.BbService;
 import blackboard.plugin.springdemo.service.CamsService;
 
@@ -34,6 +35,34 @@ public class HelloFooJPAController
 	public String frequency_sync_cron = "";
 
   // EM factory reference for our code
+	
+	@RequestMapping( "/createUser" )
+	  public ModelAndView CreateUser() throws Exception
+	  {
+		  ModelAndView mv = new ModelAndView("user_creation"); 		  
+		  //Get a list of users to upload
+		 // ArrayList<Usersync> users = camsService.getNewBBUsers();
+		  Usersync user1 = new Usersync("a123", "STUDENT", "testUser123", "creation", "");
+		  Usersync user2 = new Usersync("a456", "STUDENT", "testUser456", "creation", "");
+		  Usersync user3 = new Usersync("a789", "STUDENT", "testUser789", "creation", "");
+		  
+		  ArrayList<Usersync> users = new ArrayList<Usersync>();
+		  users.add(user1);
+		  users.add(user2);
+		  users.add(user3);		  
+		  
+		  //loop through that list and run the service below
+		  for(Usersync newUser: users){
+			  bbService.createUser(newUser.getUsername(), newUser.getRole(), newUser.getFirstName(), newUser.getLastName());
+		  }
+		  // get service and pass it the correct variables to create a dummy user
+		  //bbService.createUser("a1234567", "STUDENT", "TestUser", "creation");
+
+		
+		  
+		  return mv;
+	  }
+	  
  
   @RequestMapping( "/fooJPAController" )
   public ModelAndView helloFoo() throws Exception
@@ -55,10 +84,10 @@ public class HelloFooJPAController
 	mv.addObject("CamsRecordsSize", numOfCamsRecords);
 	mv.addObject("bbRecordSize", numOfBbRecords);
 	mv.addObject("syncListSize", numOfRecordsForSync);
-	  mv.addObject("helloWS", result);
-	  mv.addObject("bbCourseEnrollmentMap", courseEnrollmentMap);
-	  mv.addObject("syncList", syncList);
-	  mv.addObject("term", term);
+	mv.addObject("helloWS", result);
+	mv.addObject("bbCourseEnrollmentMap", courseEnrollmentMap);
+	mv.addObject("syncList", syncList);
+	mv.addObject("term", term);
 	bbService.enrollUsersToCourses(syncList); 
 	
 	  
