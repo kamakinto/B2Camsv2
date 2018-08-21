@@ -3,6 +3,7 @@ package blackboard.plugin.springdemo.model;
 public class CamsStudent {
 	private String studentId;
 	private String studentName;
+	
 	public CamsStudent(String studentId, String studentName) {
 		super();
 		this.studentId = studentId;

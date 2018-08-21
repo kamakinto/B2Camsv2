@@ -22,8 +22,7 @@ public class CamsService {
 		return camsDao.getEnrUserToCoursesWS();
 	}
 	
-	public ArrayList<Usersync> getNewBBUsers(){
-		
+	public List<Usersync> getNewBBUsers(){
 		return camsDao.getUsersWS();
 	}
 }

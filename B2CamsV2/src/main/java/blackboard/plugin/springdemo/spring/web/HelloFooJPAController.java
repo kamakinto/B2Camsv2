@@ -40,26 +40,16 @@ public class HelloFooJPAController
 	  public ModelAndView CreateUser() throws Exception
 	  {
 		  ModelAndView mv = new ModelAndView("user_creation"); 		  
-		  //Get a list of users to upload
-		 // ArrayList<Usersync> users = camsService.getNewBBUsers();
-		  Usersync user1 = new Usersync("a123", "STUDENT", "testUser123", "creation", "");
-		  Usersync user2 = new Usersync("a456", "STUDENT", "testUser456", "creation", "");
-		  Usersync user3 = new Usersync("a789", "STUDENT", "testUser789", "creation", "");
+		  List<Usersync> users = camsService.getNewBBUsers();
 		  
-		  ArrayList<Usersync> users = new ArrayList<Usersync>();
-		  users.add(user1);
-		  users.add(user2);
-		  users.add(user3);		  
-		  
-		  //loop through that list and run the service below
 		  for(Usersync newUser: users){
-			  bbService.createUser(newUser.getUsername(), newUser.getRole(), newUser.getFirstName(), newUser.getLastName());
+			  bbService.createUser(
+					  newUser.getnetid(),
+					  newUser.getRole(), 
+					  newUser.getfirstname(),
+					  newUser.getlastname());
 		  }
-		  // get service and pass it the correct variables to create a dummy user
-		  //bbService.createUser("a1234567", "STUDENT", "TestUser", "creation");
-
-		
-		  
+		  mv.addObject("newUsers", users);
 		  return mv;
 	  }
 	  

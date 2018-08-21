@@ -57,10 +57,10 @@ public List<EnrUserToCourse> decodeEnrollmentList(Object element){
 	}
 
 @Override
-public ArrayList<Usersync> getUsersWS(){
+public List<Usersync> getUsersWS(){
 	Properties props = _dao.load();
 	String result= null;
-	ArrayList<Usersync> users = new ArrayList<Usersync>();
+	List<Usersync> users = new CopyOnWriteArrayList<Usersync>();
 
 	String client_username = props.getUsername();
 	String client_password = props.getPassword();
@@ -78,6 +78,7 @@ public ArrayList<Usersync> getUsersWS(){
 		
 		Type listType = new TypeToken<List<Usersync>>() {}.getType();
 		users = new Gson().fromJson(result, listType);
+		System.out.println(users);
 	
 	
 	}catch (XmlRpcException exception){
@@ -92,12 +93,6 @@ public ArrayList<Usersync> getUsersWS(){
 	return users;
 			
 }
-
-
-
-
-
-
 	
 	@Override
 	public List<CamsCourse> getEnrUserToCoursesWS(){

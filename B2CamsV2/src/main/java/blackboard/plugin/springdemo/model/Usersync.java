@@ -1,33 +1,31 @@
 package blackboard.plugin.springdemo.model;
 
 public class Usersync {
-	private String username;
+	private String netid;
 	private String role;
-	private String firstName;
-	private String lastName;
+	private String firstname;
+	private String lastname;
 	private String password;
 	
 	public Usersync(){
 		
 	}
-	
-	
-	public Usersync(String username, String role, String firstName, String lastName, String password){
-		this.username = username;
+	public Usersync(String netid, String role, String firstname, String lastname, String password){
+		this.netid = netid;
 		this.role = role;
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.firstname = firstname;
+		this.lastname = lastname;
 		this.password = password;
 	}
 
 
-	public String getUsername() {
-		return username;
+	public String getnetid() {
+		return netid;
 	}
 
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setnetid(String netid) {
+		this.netid = netid;
 	}
 
 
@@ -41,23 +39,23 @@ public class Usersync {
 	}
 
 
-	public String getFirstName() {
-		return firstName;
+	public String getfirstname() {
+		return firstname;
 	}
 
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setfirstname(String firstname) {
+		this.firstname = firstname;
 	}
 
 
-	public String getLastName() {
-		return lastName;
+	public String getlastname() {
+		return lastname;
 	}
 
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setlastname(String lastname) {
+		this.lastname = lastname;
 	}
 
 

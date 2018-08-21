@@ -13,7 +13,7 @@ import blackboard.plugin.springdemo.model.Usersync;
 public interface CamsDao {
 	
 	List<CamsCourse> getEnrUserToCoursesWS();
-	ArrayList<Usersync> getUsersWS();
+	List<Usersync> getUsersWS();
 	
 	
 
