@@ -4,6 +4,7 @@ package blackboard.plugin.springdemo.dao.impl;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -27,6 +28,7 @@ import blackboard.plugin.springdemo.model.CamsStudent;
 import blackboard.plugin.springdemo.model.CamsStudentRecord;
 import blackboard.plugin.springdemo.model.EnrUserToCourse;
 import blackboard.plugin.springdemo.model.Foo;
+import blackboard.plugin.springdemo.model.Usersync;
 import blackboard.plugin.springdemo.model.Properties;
 
 import com.google.gson.Gson;
@@ -43,30 +45,64 @@ public class CamsDaoImpl implements CamsDao{
      * Name of remote functions used by this example
      */
     public static final String METHOD_DRUPAL_CAMS_GETENROLLMENT = "blackboard_ws.getEnrollments";
+    public static final String METHOD_DRUPAL_CAMS_GETNEWUSERS = "blackboard_ws.getNewUsers";
+  
 
 	@Autowired
 	private CamsPropertiesDAO _dao;
 	
 		
-public List<EnrUserToCourse> decodeEnrollmentList(Object element){
-		
+public List<EnrUserToCourse> decodeEnrollmentList(Object element){		
 		return null;
 	}
+
+@Override
+public List<Usersync> getUsersWS(){
+	Properties props = _dao.load();
+	String result= null;
+	List<Usersync> users = new CopyOnWriteArrayList<Usersync>();
+
+	String client_username = props.getUsername();
+	String client_password = props.getPassword();
+	String server_url = props.getWebAddress();
+	 
+	try{
+		XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+		config.setServerURL(new URL(server_url)); //update with Drupal WS URL
+		XmlRpcClient server = new XmlRpcClient();
+		server.setConfig(config);
+		Vector params = new Vector();
+		params.add(client_username);
+		params.add(client_password);
+		result = (String) server.execute("blackboard_ws.getNewUsers", params);
+		
+		Type listType = new TypeToken<List<Usersync>>() {}.getType();
+		users = new Gson().fromJson(result, listType);
+		System.out.println(users);
+	
+	
+	}catch (XmlRpcException exception){
+		System.err.println("javaClient: " + exception);
+		exception.printStackTrace();
+		
+	} catch (MalformedURLException e){
+		System.err.println("javaClient: You put in an incorrect URL for XML-RPC server format:" + e);
+		result = "javaClient: You put in an incorrect URL for XML-RPC server format:" + e;
+	}
+	
+	return users;
+			
+}
 	
 	@Override
 	public List<CamsCourse> getEnrUserToCoursesWS(){
-		 Properties props = _dao.load();
+		Properties props = _dao.load();
 		String result= null;
 		List<CamsCourse> courses = new CopyOnWriteArrayList<CamsCourse>();
-
-		
 
 		String client_username = props.getUsername();
 		String client_password = props.getPassword();
 		String server_url = props.getWebAddress();
-
-
-		 
 		 
 		try{
 			XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
@@ -131,6 +167,7 @@ public List<EnrUserToCourse> decodeEnrollmentList(Object element){
 		}
 	return courses;
 	}
+	
 	public static CamsCourse findExistingCourse(CamsStudentRecord studentRecord, List<CamsCourse> courses){
 		for(CamsCourse camsC : courses){
 //			if(studentRecord.getCourseName().toUpperCase().contentEquals(course.getCourseName().toUpperCase())

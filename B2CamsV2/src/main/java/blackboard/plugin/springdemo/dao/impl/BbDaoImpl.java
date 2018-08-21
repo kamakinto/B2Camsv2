@@ -117,6 +117,11 @@ public class BbDaoImpl implements BbDao{
 		} 
 		return user;
 	}
+	
+	@Override
+	public Boolean userExists(String netId){
+		return false;
+	}
 
 	@Override
 	public void enrollUser(String username, String role, String courseId) {
@@ -155,11 +160,11 @@ public class BbDaoImpl implements BbDao{
 	}
 	
 	@Override
-	public void createUser(String username, String role, String firstName, String lastName){
-		String emailAddress = username + "@aup.edu";
+	public void createUser(String netid, String role, String firstName, String lastName){
+		String emailAddress = netid + "@aup.edu";
 		
 		User user = new User();
-		user.setUserName(username);
+		user.setUserName(netid);
 		user.setPassword("");
 		user.setEmailAddress(emailAddress);
 		user.setFamilyName(firstName);

@@ -22,6 +22,7 @@ import blackboard.plugin.springdemo.dao.CamsPropertiesDAO;
 import blackboard.plugin.springdemo.model.CamsCourse;
 import blackboard.plugin.springdemo.model.EnrUserToCourse;
 import blackboard.plugin.springdemo.model.Properties;
+import blackboard.plugin.springdemo.model.Usersync;
 import blackboard.plugin.springdemo.service.BbService;
 import blackboard.plugin.springdemo.service.CamsService;
 
@@ -114,14 +115,23 @@ public class CamsController {
 		  
 		  String username = user.getUserName();
 		  ModelAndView mv = new ModelAndView("cams_admin_success");
-		  mv.addObject("user", username);
-		  
-		  
+		  mv.addObject("user", username);		  
 		  return mv;
 	  }
 	  
-	  @Scheduled(cron="0 0 5,19 * * *") // set to twice a day
+	  @Scheduled(cron="0 50 * * * *")
+	  public void executeUserSync(){
+		  List<Usersync> users = camsService.getNewBBUsers();
+		  for(Usersync newUser: users){
+			  bbService.createUser(
+					  newUser.getnetid(),
+					  newUser.getRole(), 
+					  newUser.getfirstname(),
+					  newUser.getlastname());
+		  }
+	  }
 	  
+	  @Scheduled(cron="0 0 5,19 * * *") // set to twice a day	  
 	  public void executeCamsSync(){
 		  DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		  Date date = new Date();

@@ -11,7 +11,7 @@
 
 	<bbNG:actionControlBar>
 		<bbNG:actionButton url="fooJPAController" title="Sync CAMS" primary="true"/>
-		<bbNG:actionButton url="xxx.jsp" title="Logs" primary="true"/>
+		<bbNG:actionButton url="createUser" title="Sync Users" primary="true"/>
 
 	</bbNG:actionControlBar>
 

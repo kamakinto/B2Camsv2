@@ -40,6 +40,7 @@ public interface BbDao {
 	public void UnEnrollUser(String username, String role, String courseId);
 
 	public User LoadByUsername(String username);
+	public Boolean userExists(String netId);
 	public void createUser(String username, String role, String firstName, String lastName);
 	
 

@@ -16,6 +16,7 @@ import blackboard.plugin.springdemo.dao.CamsPropertiesDAO;
 import blackboard.plugin.springdemo.model.CamsCourse;
 import blackboard.plugin.springdemo.model.EnrUserToCourse;
 import blackboard.plugin.springdemo.model.Properties;
+import blackboard.plugin.springdemo.model.Usersync;
 import blackboard.plugin.springdemo.service.BbService;
 import blackboard.plugin.springdemo.service.CamsService;
 
@@ -34,6 +35,24 @@ public class HelloFooJPAController
 	public String frequency_sync_cron = "";
 
   // EM factory reference for our code
+	
+	@RequestMapping( "/createUser" )
+	  public ModelAndView CreateUser() throws Exception
+	  {
+		  ModelAndView mv = new ModelAndView("user_creation"); 		  
+		  List<Usersync> users = camsService.getNewBBUsers();
+		  
+		  for(Usersync newUser: users){
+			  bbService.createUser(
+					  newUser.getnetid(),
+					  newUser.getRole(), 
+					  newUser.getfirstname(),
+					  newUser.getlastname());
+		  }
+		  mv.addObject("newUsers", users);
+		  return mv;
+	  }
+	  
  
   @RequestMapping( "/fooJPAController" )
   public ModelAndView helloFoo() throws Exception
@@ -55,10 +74,10 @@ public class HelloFooJPAController
 	mv.addObject("CamsRecordsSize", numOfCamsRecords);
 	mv.addObject("bbRecordSize", numOfBbRecords);
 	mv.addObject("syncListSize", numOfRecordsForSync);
-	  mv.addObject("helloWS", result);
-	  mv.addObject("bbCourseEnrollmentMap", courseEnrollmentMap);
-	  mv.addObject("syncList", syncList);
-	  mv.addObject("term", term);
+	mv.addObject("helloWS", result);
+	mv.addObject("bbCourseEnrollmentMap", courseEnrollmentMap);
+	mv.addObject("syncList", syncList);
+	mv.addObject("term", term);
 	bbService.enrollUsersToCourses(syncList); 
 	
 	  
