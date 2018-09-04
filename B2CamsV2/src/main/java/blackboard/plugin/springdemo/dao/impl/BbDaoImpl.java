@@ -25,12 +25,14 @@ import blackboard.persist.course.CourseMembershipDbLoader;
 import blackboard.persist.course.CourseMembershipDbPersister;
 import blackboard.persist.user.UserDbLoader;
 import blackboard.persist.user.UserDbPersister;
+import blackboard.persist.user.impl.UserDbPersisterImpl;
 import blackboard.plugin.springdemo.dao.BbDao;
 import blackboard.plugin.springdemo.dao.CamsDao;
 import blackboard.plugin.springdemo.dao.CamsPropertiesDAO;
 import blackboard.plugin.springdemo.model.CamsCourse;
 import blackboard.plugin.springdemo.model.Foo;
 import blackboard.plugin.springdemo.model.Properties;
+
 
 @Component
 public class BbDaoImpl implements BbDao{
@@ -43,6 +45,7 @@ public class BbDaoImpl implements BbDao{
 
   @Autowired
   private UserDbLoader _userLoader;
+ 
   
   @Autowired
   private CourseDbLoader _courseLoader;
@@ -162,22 +165,18 @@ public class BbDaoImpl implements BbDao{
 	@Override
 	public void createUser(String netid, String role, String firstName, String lastName){
 		String emailAddress = netid + "@aup.edu";
-		
+		String password = firstName+netid+lastName;
 		User user = new User();
 		user.setUserName(netid);
-		user.setPassword("");
+		user.setPassword(password);
 		user.setEmailAddress(emailAddress);
 		user.setFamilyName(firstName);
 		user.setGivenName(lastName);
-		
-		//TODO: Finish completing the user properties for persistence
 		try {
-			UserDbPersister userPersister = UserDbPersister.Default.getInstance();
-			
+			UserDbPersister userPersister = UserDbPersister.Default.getInstance();	
 			userPersister.persist(user);
 			
 		} catch (PersistenceException | ValidationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

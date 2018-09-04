@@ -41,6 +41,13 @@ public class HelloFooJPAController
 	  {
 		  ModelAndView mv = new ModelAndView("user_creation"); 		  
 		  List<Usersync> users = camsService.getNewBBUsers();
+		  mv.addObject("newUsers", users);
+		  mv.addObject("hello", "hello to test if tags show up");
+//		  bbService.createUser(
+//				  "aRobbie123",
+//				  "STUDENT", 
+//				  "ROBBIE",
+//				  "ROBINSON");
 		  
 		  for(Usersync newUser: users){
 			  bbService.createUser(
@@ -49,7 +56,7 @@ public class HelloFooJPAController
 					  newUser.getfirstname(),
 					  newUser.getlastname());
 		  }
-		  mv.addObject("newUsers", users);
+		  
 		  return mv;
 	  }
 	  

@@ -16,8 +16,8 @@
 <!-- <li><a href="fooJPAController">Logical test for Cams Sync</a>
 <li><a href="reportsController">Advanced Reporting</a> -->
 <li><a href="CamsController">CAMS Settings</a>
-<!-- <li><a href="hello">Learn API Exampleee</a>
-<li><a href="createUser">User Creation</a> -->
+<!-- <li><a href="hello">Learn API Exampleee</a> -->
+<li><a href="createUser">User Creation</a> </li>
 
 </ul>
 </body>

@@ -60,7 +60,7 @@ public List<EnrUserToCourse> decodeEnrollmentList(Object element){
 public List<Usersync> getUsersWS(){
 	Properties props = _dao.load();
 	String result= null;
-	List<Usersync> users = new CopyOnWriteArrayList<Usersync>();
+	List<Usersync> listOfusers = new ArrayList<Usersync>();
 
 	String client_username = props.getUsername();
 	String client_password = props.getPassword();
@@ -77,9 +77,14 @@ public List<Usersync> getUsersWS(){
 		result = (String) server.execute("blackboard_ws.getNewUsers", params);
 		
 		Type listType = new TypeToken<List<Usersync>>() {}.getType();
-		users = new Gson().fromJson(result, listType);
-		System.out.println(users);
-	
+		List<Usersync> users = new Gson().fromJson(result, listType);
+		
+		for (Usersync newUser: users){
+			Usersync u = new Usersync(newUser.getnetid(), "STUDENT", newUser.getfirstname(), newUser.getlastname(), "");
+			listOfusers.add(u);
+		}
+		
+			
 	
 	}catch (XmlRpcException exception){
 		System.err.println("javaClient: " + exception);
@@ -90,7 +95,7 @@ public List<Usersync> getUsersWS(){
 		result = "javaClient: You put in an incorrect URL for XML-RPC server format:" + e;
 	}
 	
-	return users;
+	return listOfusers;
 			
 }
 	
